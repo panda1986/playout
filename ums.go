@@ -37,7 +37,6 @@ type Menu struct {
 }
 
 type Ums struct {
-    addr string
 }
 
 func (v *Ums) postForm(sid, url string, form url.Values) (body []byte, err error) {
@@ -85,7 +84,7 @@ func (v *Ums) postForm(sid, url string, form url.Values) (body []byte, err error
 }
 
 func (v *Ums) MenuList(sid string) (menu []*Menu, err error) {
-    api := fmt.Sprintf("http://%s%s", v.addr, UmsGetMenuListApi)
+    api := fmt.Sprintf("http://%s%s", Config().Playout.Ums, UmsGetMenuListApi)
     form := make(url.Values)
     form.Set("m_type", "0")
     form.Set("user_id", "1")
@@ -109,7 +108,7 @@ func (v *Ums) MenuList(sid string) (menu []*Menu, err error) {
 }
 
 func (v *Ums) UserInfo(sid string) (user *UserInfo, err error) {
-    api := fmt.Sprintf("http://%s%s", v.addr, UmsGetUserApi)
+    api := fmt.Sprintf("http://%s%s", Config().Playout.Ums, UmsGetUserApi)
     form := make(url.Values)
     form.Set("token", sid)
     form.Set("fr", "ajax")

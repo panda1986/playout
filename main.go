@@ -5,14 +5,28 @@ import (
     "net/http"
     "os"
     "fmt"
+    "flag"
+    "log"
 )
 
 func main()  {
-    listen := ":2047"
-    ums_host_port := "127.0.0.1:8082"
-    fmt.Println(fmt.Sprintf("http listen at:%v, ums:%v", listen, ums_host_port))
+    cfg := flag.String("c", "log.conf", "configuration file")
+    version := flag.Bool("v", false, "show version")
 
-    ums := &Ums{addr: ums_host_port}
+    flag.Parse()
+
+    if *version {
+        fmt.Println(Version)
+        os.Exit(0)
+    }
+
+    if err := ParseConfig(*cfg); err != nil {
+        log.Fatalf("parse config failed, err is %v", err)
+    }
+
+    fmt.Println(fmt.Sprintf("http listen at:%v, ums:%v", Config().Listen, Config().Playout.Ums))
+
+    ums := &Ums{}
     gSess := NewSessionManager(ums)
 
     core.HttpMount("static-dir", "/", "/index.html", core.StdHttpHeaderServer(fmt.Sprintf("%s/%s", ProductSystem, Version), nil))
@@ -31,7 +45,7 @@ func main()  {
         })
     }
 
-    http.Handle("/account/user_info", injector(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+    http.Handle("/account/get_user_info", injector(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
         info, err := gSess.UserInfo(r)
         if err != nil {
             Error(ErrorGetUserInfo, err.Error()).ServeHTTP(w, r)
@@ -53,6 +67,7 @@ func main()  {
         return
     })))
 
+    listen := fmt.Sprintf("0.0.0.0:%v", Config().Listen)
     if err := http.ListenAndServe(listen, nil); err != nil {
         fmt.Println(nil, "playout listen at ", listen, "failed. err is", err)
         os.Exit(-1)
