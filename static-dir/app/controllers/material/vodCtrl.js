@@ -24,9 +24,9 @@ bravo_bpo.controller("vodCtrl", ["$scope", "$location", "bpo_check", "bpo_api", 
             get_video_list();
         });
 
-        bpo_api.get_copyright({}, function(data) {
-            $scope.copyright = data.result.copyright;
-        });
+        // bpo_api.get_copyright({}, function(data) {
+        //     $scope.copyright = data.result.copyright;
+        // });
 
         // service.js
         $rootScope.r.on('fileSuccess', function(file, message) {

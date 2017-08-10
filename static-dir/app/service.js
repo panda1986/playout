@@ -1,249 +1,45 @@
 'use strict';
 var bpo_service = angular.module("bpo_service", []);
 
-bpo_service.service("bpo_api", ["$http", function($http) {
-    var form_post = function(url, data) {
-        return {
-            'url': url,
-            'method': 'POST',
-            'data': data,
-            'headers': {'Content-Type': 'application/x-www-form-urlencoded'},
-            'transformRequest': function(data) {
-                var str = [], index;
-                for (var p in data) {
-                    index = angular.isArray(data[p]) ? (encodeURIComponent(p) + "=" + "[" + encodeURIComponent(data[p]) + "]") : (encodeURIComponent(p) + "=" + encodeURIComponent(data[p]));
-                    str.push(index);
-                }
-                return str.join("&");
-            }
-        }
-    };
-    var form_post_add_token = function(info) {
-        // todo: 暂时保留token
-        //var token = get_token();
-        //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
-        //}
-        //info.data.token = token;
-        return info;
-    };
-    var post_add_token = function(url, data) {
-        // todo: 暂时保留token
-        //var token = get_token();
-        //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
-        //}
-        var info = {
-            'url': url,
-            'method': 'POST',
-            'data': data
-        };
-        //info.data.token = token;
-        return info;
-    };
-    var get_add_token = function(url) {
-        // todo: 暂时保留token
-        //var token = get_token();
-        //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
-        //}
-        //var info = {
-        //    'url': url + "?token=" + token,
-        //    'method': 'GET'
-        //};
-        var info = {
-            'url': url,
-            'method': 'GET'
-        };
-        return info;
-    };
-
+bpo_service.service("bpo_api", ["$http", function ($http) {
     return {
-        // 获取用户对应的菜单/目录列表
-        'get_menu_list': function(data, callback) {
-            var info = form_post(bpo_http_api.accounts + 'get_menu_list/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
+        get_menu_list: function () {
+            var m_type = "m_type=1";
+            $http({
+                url: bpo_http_api.accounts + "get_menu_list?" + m_type,
+                method: 'GET',
+                //params:params,
+                //data: data 
+            }).success(function (res) {
+                console.log(res);
+            }).error(function () {
+            });
         },
-        // 获取视频列表
-        'get_video_list': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_video_list/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
+        get_user_info: function () {
+            $http({
+                url: bpo_http_api.accounts + "get_user_info",
+                mothod: "GET"
+            }).success(function (res) {
+                console.log(res);
+            }).error (function (res) {
+                //
+            })
         },
-        // 获取内容审核视频列表
-        'get_review_video': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_review_video/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取审核详情
-        'get_review_detail': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_review_detail/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 视频审核
-        'video_review': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'video_review/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 批量删除/恢复视频
-        'delete_video': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'delete_video/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 批量删除导入失败的视频
-        'delete_download_videos': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'delete_download_videos/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取视频转码相关信息
-        'get_video_with_coding_info': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_video_with_coding_info/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 对视频进行某个模板的重新转码(待调整)
-        'redo_transcoding': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'redo_transcoding/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取单个直播源
-        'get_live_stream': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_live_stream/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取直播源列表
-        'get_live_stream_list': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_live_stream_list/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取审核的直播源列表
-        'get_review_live_streams': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_review_live_streams/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取直播源审核详情
-        'get_lsreview_detail': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_lsreview_detail/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 创建直播源
-        'create_live_stream': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'create_live_stream/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 修改直播源
-        'update_live_stream': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'update_live_stream/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 直播源审核
-        'live_stream_review': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'live_stream_review/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 直播源重新提交审核
-        'submit_live_stream_review': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'submit_live_stream_review/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-
-        // 批量删除直播源
-        'delete_live_stream': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'delete_live_stream/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 播出节目单审核
-        'program_group_review': function(data, callback) {
-            var info = form_post(bpo_http_api.channel + 'program_group_review/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取频道列表
-        'get_channels': function(data, callback) {
-            var info = form_post(bpo_http_api.channel + 'get_channels/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 重新提交内容审核
-        'submit_content_review': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'submit_content_review/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取节目单
-        // 'get_program_groups': function(data, callback) {
-        //     var info = form_post(bpo_http_api.channel + 'get_program_groups/', data);
-        //     var Http = form_post_add_token(info);
-        //     $http(Http).success(callback);
-        // },
-        // 获取审核的播出节目单
-        // XXX 编单审核未开启的不显示
-        'get_review_groups': function(data, callback) {
-            var info = form_post(bpo_http_api.channel + 'get_review_groups/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 根据节目单ID获取节目列表
-        'get_programs_by_groupid': function(data, callback) {
-            var info = form_post(bpo_http_api.channel + 'get_programs_by_groupid/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 检查此目录下的文件名是否唯一
-        'title_unique': function(data, callback) {
-            var info = post_add_token(bpo_http_api.video + 'title_unique/', data);
-            $http(info).success(callback);
-        },
-        // 获取媒资系统成品分类
-        'get_vms_directories': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_vms_directories/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 获取媒资系统分类下的视频
-        'get_vms_product_videos': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_vms_product_videos/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 导入系统来源
-        'get_copyright': function(data, callback) {
-            var info = post_add_token(bpo_http_api.video + 'get_copyright/', data);
-            $http(info).success(callback);
-        },
-        // 从媒资系统导入视频
-        'post_video_info': function(data, callback) {
-            var info = post_add_token(bpo_http_api.video + 'post_video_info/', data);
-            $http(info).success(callback);
-        },
-        // 获取新奥特媒资系统视频
-        'get_cdv_product_videos': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'get_cdv_product_videos/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
-        // 修改视频信息
-        'update_video': function(data, callback) {
-            var info = form_post(bpo_http_api.video + 'update_video/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        }
+        // get_menu_list: function (params, callback) {
+        //     $http({
+        //         url: btsHttpApi + params,
+        //         method: 'GET'
+        //     }).success(callback);
+        // }
+        // get_menu_list: function (config, callback) {
+        //     var http = {
+        //         url: bpo_http_api.accounts + "get_user_info",
+        //         method: config.method
+        //     }
+        //     config.data && (http,data = config.data);
+        //     config.url && (http.url += config.url);
+        //     $http(http).success(callback);
+        // }
     }
 }]);
 

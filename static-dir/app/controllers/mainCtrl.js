@@ -1,6 +1,6 @@
 'use strict';
-bravo_bpo.controller("mainCtrl", ["$scope", "growl", "$window", "bpo_http_error", "video_upload", "$http", "$rootScope",
-    function($scope, growl, $window, bpo_http_error, video_upload, $http, $rootScope) {
+bravo_bpo.controller("mainCtrl", ["$scope", "growl", "$window", "bpo_http_error", "video_upload", "$http", "$rootScope", "bpo_api",
+    function($scope, growl, $window, bpo_http_error, video_upload, $http, $rootScope, bpo_api) {
         var $win, target, tag;
         $scope.ums_root = UMS_ROOT;
 
@@ -40,8 +40,6 @@ bravo_bpo.controller("mainCtrl", ["$scope", "growl", "$window", "bpo_http_error"
             }).then(function successCallback(res) {
                 window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
             }, function errorCallback(res) {
-                // todo:....
-                console.log(res);
                 window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
             });
         };
