@@ -4,6 +4,7 @@ import (
     "chnvideo.com/cloud/common/core"
     "fmt"
     "net/http"
+    "net/url"
 )
 
 type MemorySession struct {
@@ -27,12 +28,16 @@ func NewSessionManager(ums *Ums) *SessionManager {
 }
 
 func (v *SessionManager) sid(r *http.Request) (sid string, err error)  {
-    cookie, err := r.Cookie(CookieName)
-    if err != nil || cookie.Value == "" {
-        return "", fmt.Errorf("didn't have %v in cookie", CookieName)
+    q := r.URL.Query()
+    token := q.Get("token")
+    if len(token) == 0 {
+        cookie, err := r.Cookie(CookieName)
+        if err != nil || cookie.Value == "" {
+            return "", fmt.Errorf("didn't have %v in cookie", CookieName)
+        }
+        return cookie.Value, nil
     }
-
-    return cookie.Value, nil
+    return token, nil
 }
 
 func (v *SessionManager) Session(r *http.Request) (s *MemorySession, err error) {
@@ -52,7 +57,7 @@ func (v *SessionManager) Session(r *http.Request) (s *MemorySession, err error) 
     return
 }
 
-func (v *SessionManager) SessionRead(r *http.Request) (sess *MemorySession, err error) {
+func (v *SessionManager) SessionRead(w http.ResponseWriter, r *http.Request) (sess *MemorySession, err error) {
     var sid string
     if sid, err = v.sid(r); err != nil {
         core.LoggerError.Println("get sessionid failed, err is", err)
@@ -81,6 +86,9 @@ func (v *SessionManager) SessionRead(r *http.Request) (sess *MemorySession, err 
         user: user,
     }
     v.sessions[sid] = sess
+
+    cookie := http.Cookie{Name: CookieName, Value: url.QueryEscape(sid), Path: "/", HttpOnly: true}
+    http.SetCookie(w, &cookie)
     return
 }
 

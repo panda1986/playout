@@ -9,6 +9,7 @@ import (
     "log"
     "runtime"
     "chnvideo.com/cloud/playout/util"
+    "net/url"
 )
 
 func main()  {
@@ -36,14 +37,12 @@ func main()  {
     runtime.GOMAXPROCS(Config().NbCpus)
     fmt.Println(fmt.Sprintf("http listen at:%v, ums:%v, cpu:%v", Config().Listen, Config().Playout.Ums, Config().NbCpus))
 
-    core.HttpMount("static-dir", "/", "/bpo.html", core.StdHttpHeaderServer(fmt.Sprintf("%s/%s", ProductSystem, Version), nil))
-
     // hjack http request, check if has session_id in cookie,
     //  if not return 401
     // The injector hijack each http request.
     injector := func(next http.Handler) http.Handler {
         return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-            if _, err := gSess.SessionRead(r); err != nil {
+            if _, err := gSess.SessionRead(w, r); err != nil {
                 http.Error(w, err.Error(), http.StatusUnauthorized)
                 return
             }
@@ -51,6 +50,11 @@ func main()  {
             next.ServeHTTP(w, r)
         })
     }
+
+    core.HttpMount("static-dir", "/", "/bpo.html", injector(nil))
+
+    http.Handle("/resource/upload", injector(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+    })))
 
     http.Handle("/account/get_user_info", injector(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
         info, err := gSess.UserInfo(r)

@@ -16,9 +16,12 @@ type GlobalConfig struct {
     core.Config
     mysql.SqlCommonConfig
     Playout struct {
-            Ip string `json:"access_ip"`
-            Ums string `json:"ums_host_port"`
-        } `json:"playout"`
+        Ip string `json:"access_ip"`
+        Ums string `json:"ums_host_port"`
+    } `json:"playout"`
+    Resources struct{
+        VideoDir string `json:"video_dir"`
+    } `json:"resources"`
 }
 
 func (v *GlobalConfig) Validate() (err error) {
@@ -37,6 +40,11 @@ func (v *GlobalConfig) Validate() (err error) {
     }
     if len(v.Playout.Ums) == 0 {
         err = fmt.Errorf("ums addr is empty")
+        log.Println(err.Error())
+        return
+    }
+    if len(v.Resources.VideoDir) == 0 {
+        err = fmt.Errorf("resources video dir is empty")
         log.Println(err.Error())
         return
     }
@@ -86,6 +94,7 @@ func ParseConfig(cfg string) (err error) {
 }
 
 func Init() (err error) {
+    // generate dynamic js file
     jsFile := path.Join(SystemDynamicCodeJsDir, SystemDynamicCodeJsName)
     if util.Exist(jsFile) {
         os.Remove(jsFile)
@@ -107,6 +116,13 @@ func Init() (err error) {
     fileOut.WriteString(fmt.Sprintf("var UMS_ROOT = '%s'; \r\n", config.Playout.Ums))
     fileOut.WriteString(fmt.Sprintf("var BPO_ROOT = '%s:%d';\n", config.Playout.Ip, config.Listen))
 
+    // check resource video dir exist
+    if !util.Exist(config.Resources.VideoDir) {
+        if err = os.MkdirAll(config.Resources.VideoDir, 0777); err != nil {
+            log.Fatalln("mkdir for", config.Resources.VideoDir, "failed, err is", err)
+            return
+        }
+    }
     return
 }
 

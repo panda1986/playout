@@ -18,7 +18,7 @@ type UserInfo struct {
     CellPhone string `json:"cellphone"`
 }
 
-type MenuContent struct {
+type MenuSubContent struct {
     Status int `json:"status"` //1-启用，0-禁用
     NeedVerify int `json:"need_verify"` //是否需要审核 0-不需要，1-需要（针对 轮播频道分类）
     Id int `json:"id"`
@@ -30,6 +30,11 @@ type MenuContent struct {
     Desc string `json:"desc"`
     Order int `json:"order"`
     WorkFlowId int `json:"wf_id"` //工作流ID
+}
+
+type MenuContent struct {
+    MenuSubContent
+    ChileMenu []*MenuSubContent `json:"child_menu"`
 }
 
 type Menu struct {
