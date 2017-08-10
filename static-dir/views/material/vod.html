@@ -1,0 +1,125 @@
+<div class="g-mn1c" ng-controller="vodCtrl">
+    <span us-spinner="{radius:20, width:10, length: 20, scale: 0.5, corners: 1, rotate: 0, direction: 1, color: '#5882FA', speed: 1.5, trail: 60}"><span class="loading_bg"></span></span>
+    <div class="m-crumb fs12">素材管理 / 点播素材</div>
+    <div class="m-op f-cb">
+        <div class="pull-left u-chkList marL20">素材类别</div>
+        <div class="pull-left u-chkList mar0_5">
+            <select class="u-select u-select1"
+                    ng-model="video_data.directory_id"
+                    ng-change="select_list()"
+                    ng-options="a.id as a.name for a in directory_options">
+            </select>
+        </div>
+        <div class="pull-left u-chkList marL10">素材名称
+            <input class="w104 u-select" type="text" ng-model="video_data.title" placeholder="请输入名称">
+        </div>
+        <!-- <div class="pull-left u-chkList marL10">分辨率</div>
+        <div class="pull-left u-chkList mar0_5">
+            <input class="w104 u-select" type="text" ng-model="video_data.resolution" placeholder="请输入分辨率">
+        </div>
+        <form class="form-horizontal" role="form" name="bitrateInfo">
+            <div class="pull-left u-chkList marL10">码率</div>
+            <div class="pull-left u-chkList mar0_5">
+                <input class="w60 u-select minw60 marR5" type="number" ng-pattern="/^[0-9]+$/" ng-model="video_data.video_bitrate_min">M —
+                <input class="w60 u-select minw60 marL5 marR5" type="number" ng-pattern="/^[0-9]+$/" ng-model="video_data.video_bitrate_max">M
+            </div>
+        </form> -->
+        <div class="pull-left u-chkList">
+            <button class="u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="search()" ng-disabled="bitrateInfo.$invalid">查询</button>
+        </div>
+        <button class="pull-right u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="select_upload(directory_options)">上传素材</button>
+        <!--从新奥特导入素材-->
+        <button ng-if="copyright=='weilai'" class="pull-right u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="import_videos(directory_options)">导入素材</button>
+        <!--从VMS导入素材-->
+        <!-- <button ng-if="copyright=='trunk'" class="pull-right u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="import_material(directory_options)">导入素材</button> -->
+    </div>
+    <div class="m-table f-sd">
+        <div class="delete_input">
+            <input type="checkbox" class="vertical_top" ng-model="checkboxes.checked" ng-click="check_all()" ng-change="checked(checkboxes.checked)" />
+            <a href="javascript:;" class="active marL10 fs12" ng-click="delete_video()">删除</a>
+        </div>
+        <div class="u-tb f-sd">
+            <table width="100%" class="u-tb1 u-tb5">
+                <thead>
+                    <tr>
+                        <th>素材名称</th>
+                        <th ng-repeat="title in material_data.titles">{{title}}</th>
+                        <th>分辨率</th>
+                        <th>码率</th>
+                        <th>时长</th>
+                        <th>上传/导入状态</th>
+                        <th>操作</th>
+                    <tr>
+                </thead>
+                <tbody class="u-td1">
+                    <tr ng-repeat="file in files" ng-if="video_data.directory_id == upload_type">
+                        <td>{{file.fileName}}</td>
+                        <td ng-repeat="title in material_data.titles">-</td>
+                        <td>暂无</td>
+                        <td>暂无</td>
+                        <td>暂无</td>
+                        <td>上传中({{file.progress()*100 | number: 2}}%)</td>
+                        <td><a ng-click="cancelFile(file)" class="marL10" ng-hide="file.progress() == '1'">终止</a></td>
+                    </tr>
+
+                    <tr ng-repeat="item in material_data.datas">
+                        <td ng-if="item.file_type == 'mp4'">
+                            <label ng-if="item.import_show">
+                                <input type="checkbox" class="view_hidden" />
+                            </label>
+                            <label ng-if="!item.import_show">
+                                <input type="checkbox" ng-model="item.check" ng-click="item_check()" ng-change="checked(item.check)" />
+                            </label>
+                            <a href="javascript:;" uib-popover="点击预览视频" popover-trigger="'mouseenter'" ng-click="see_video(item.video_url)">{{item.title}}</a>
+                        </td>
+                        <td ng-if="item.file_type != 'mp4'">
+                            <label ng-if="item.import_show">
+                                <input type="checkbox" class="view_hidden" />
+                            </label>
+                            <label ng-if="!item.import_show">
+                                <input type="checkbox" ng-model="item.check" ng-click="item_check()" ng-change="checked(item.check)" />
+                            </label>
+                            <a ng-href="{{item.view_url}}\" uib-popover="点击预览视频" popover-trigger="'mouseenter'">{{item.title}}</a>
+                        </td>
+                        <td class="f-c0" ng-repeat="s in item.status_list track by $index">
+                            <span ng-class="{'1': 'f-c2', '2': 'f-c4', '3': 'f-c5'}[s]">
+                                {{material_data.titles[$index] + "," + s | videoStatus}}
+                            </span>
+                            <div>
+                                <a ng-if="s == 3 && material_data.is_transcode != $index"
+                                   class="active" ng-click="check_details($index, item.video_id)">查看详情</a>
+                                <a ng-if="s == 3 && material_data.is_transcode == $index"
+                                   class="active" ng-click="check_details($index, item.video_id)">重新转码</a>
+                            </div>
+                        </td>
+                        <td>
+                            <span>{{item.width}} * {{item.height}}</span>
+                        </td>
+                        <td>{{item.video_bitrate | bps}}</td>
+                        <td>{{item.duration | seconds_to_hhmmss}}</td>
+                        <td ng-if="item.import_show && item.status==1">{{item.progress}}%</td>
+                        <td ng-if="item.import_show && item.status!=1">{{item.status | import_status}}</td>
+                        <td ng-if="!item.import_show"><span class="f-c4">完成</span></td>
+                        <td ng-if="item.import_show && item.status!=3">-</td>
+                        <td ng-if="item.import_show && item.status==3">
+                            <a href="javascript:;" ng-click="delete_download_videos(item.download_id)">删除</a>
+                        </td>
+                        <td ng-if="!item.import_show">
+                            <a href="javascript:;" ng-click="modify(item.video_id, item.title)">编辑</a>
+                            <a href="javascript:;" class="marL10" ng-click="delete_video(item.video_id)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="m-page text-right">
+            <ul uib-pagination ng-change="pageChanged()"
+                total-items="bigTotalItems"
+                ng-model="bigCurrentPage"
+                items-per-page="itemsPerPage"
+                max-size="maxSize"
+                class="pagination-sm"
+                boundary-link-numbers="true"></ul>
+        </div>
+    </div>
+</div>

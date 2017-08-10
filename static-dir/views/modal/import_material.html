@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span>×</span></button>
+    <h4 class="modal-title">导入素材</h4>
+</div>
+<div class="modal-body fs12 pad0">
+    <div class="add-material clearfix">
+        <div class="pull-left">
+            <div class="lh20 padL15 fs13 pointer" ng-repeat="x in categoryies" ng-class="{true: 'active'}[x.is_selected]">
+                <a href="javascript:;" ng-click="change_category(x)" class="m-node3">{{x.name}}</a>
+            </div>
+        </div>
+        <div class="pull-left f-pl10">
+            <div>
+                <div class="clearfix pad15">
+                    <input class="pull-left" type="text" placeholder="素材名称" ng-model="api_data.title">
+                    <a class="marL10 pull-left marT5" ng-click="search()">
+                        <span class="glyphicon glyphicon-search fs20 gray"></span>
+                    </a>
+                </div>
+                <div class="clear"></div>
+                <hr>
+                <div class="marT20 padL15">
+                    <!--<dl ng-repeat="x in materials"-->
+                        <!--class="vms_upload pointer pull-left marterial_img"-->
+                        <!--ng-click="select_program(x)"-->
+                        <!--uib-popover={{x.tip_info}}-->
+                        <!--popover-trigger="'mouseenter'">-->
+                    <dl ng-repeat="x in materials"
+                        class="vms_upload pointer pull-left marterial_img"
+                        ng-click="select_program(x)">
+                        <dd>
+                            <img ng-src={{x.img_url}} alt="" image-404="images/NotFound.png" >
+                        </dd>
+                        <dt class="f-toe f-fwn" title={{x.title}}>{{x.title}}</dt>
+                        <i ng-show="x.selected" class="glyphicon glyphicon-ok-sign img_select_icon"></i>
+                    </dl>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="m-page text-right tac">
+                <ul uib-pagination ng-change="pageChanged()"
+                    total-items="bigTotalItems"
+                    ng-model="bigCurrentPage"
+                    items-per-page="itemsPerPage"
+                    max-size="maxSize"
+                    class="pagination-sm marT-1"
+                    boundary-link-numbers="true">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body padB0">
+    <form role="form">
+        <label>导入到:</label>
+        <select class="u-select u-select1 w120 mar0_5"
+                ng-options="x.id as x.name for x in types"
+                ng-model="type"></select>
+    </form>
+</div>
+<div class="modal-footer padT0">
+    <button type="button" class="btn btn-primary u-btn f-c3" ng-click="cancel()">取消</button>
+    <button type="button" class="btn btn-primary u-btn f-c3" ng-click="ok()">确定</button>
+</div>

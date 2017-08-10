@@ -1,7 +1,7 @@
 'use strict';
-var bls_service = angular.module("bls_service", []);
+var bpo_service = angular.module("bpo_service", []);
 
-bls_service.service("bls_api", ["$http", function($http) {
+bpo_service.service("bpo_api", ["$http", function($http) {
     var form_post = function(url, data) {
         return {
             'url': url,
@@ -22,7 +22,7 @@ bls_service.service("bls_api", ["$http", function($http) {
         // todo: 暂时保留token
         //var token = get_token();
         //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
         //}
         //info.data.token = token;
         return info;
@@ -31,7 +31,7 @@ bls_service.service("bls_api", ["$http", function($http) {
         // todo: 暂时保留token
         //var token = get_token();
         //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
         //}
         var info = {
             'url': url,
@@ -45,7 +45,7 @@ bls_service.service("bls_api", ["$http", function($http) {
         // todo: 暂时保留token
         //var token = get_token();
         //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
         //}
         //var info = {
         //    'url': url + "?token=" + token,
@@ -60,27 +60,194 @@ bls_service.service("bls_api", ["$http", function($http) {
 
     return {
         // 获取用户对应的菜单/目录列表
-        // 'get_menu_list': function(data, callback) {
-        //     var info = form_post(bls_http_api.accounts + 'get_menu_list/', data);
+        'get_menu_list': function(data, callback) {
+            var info = form_post(bpo_http_api.accounts + 'get_menu_list/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取视频列表
+        'get_video_list': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_video_list/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取内容审核视频列表
+        'get_review_video': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_review_video/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取审核详情
+        'get_review_detail': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_review_detail/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 视频审核
+        'video_review': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'video_review/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 批量删除/恢复视频
+        'delete_video': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'delete_video/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 批量删除导入失败的视频
+        'delete_download_videos': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'delete_download_videos/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取视频转码相关信息
+        'get_video_with_coding_info': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_video_with_coding_info/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 对视频进行某个模板的重新转码(待调整)
+        'redo_transcoding': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'redo_transcoding/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取单个直播源
+        'get_live_stream': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_live_stream/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取直播源列表
+        'get_live_stream_list': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_live_stream_list/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取审核的直播源列表
+        'get_review_live_streams': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_review_live_streams/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取直播源审核详情
+        'get_lsreview_detail': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_lsreview_detail/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 创建直播源
+        'create_live_stream': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'create_live_stream/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 修改直播源
+        'update_live_stream': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'update_live_stream/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 直播源审核
+        'live_stream_review': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'live_stream_review/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 直播源重新提交审核
+        'submit_live_stream_review': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'submit_live_stream_review/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+
+        // 批量删除直播源
+        'delete_live_stream': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'delete_live_stream/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 播出节目单审核
+        'program_group_review': function(data, callback) {
+            var info = form_post(bpo_http_api.channel + 'program_group_review/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取频道列表
+        'get_channels': function(data, callback) {
+            var info = form_post(bpo_http_api.channel + 'get_channels/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 重新提交内容审核
+        'submit_content_review': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'submit_content_review/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取节目单
+        // 'get_program_groups': function(data, callback) {
+        //     var info = form_post(bpo_http_api.channel + 'get_program_groups/', data);
         //     var Http = form_post_add_token(info);
         //     $http(Http).success(callback);
         // },
-        // // 获取视频列表
-        // 'get_video_list': function(data, callback) {
-        //     var info = form_post(bls_http_api.video + 'get_video_list/', data);
-        //     var Http = form_post_add_token(info);
-        //     $http(Http).success(callback);
-        // },
-        // // 获取内容审核视频列表
-        // 'get_review_video': function(data, callback) {
-        //     var info = form_post(bls_http_api.video + 'get_review_video/', data);
-        //     var Http = form_post_add_token(info);
-        //     $http(Http).success(callback);
-        // }
+        // 获取审核的播出节目单
+        // XXX 编单审核未开启的不显示
+        'get_review_groups': function(data, callback) {
+            var info = form_post(bpo_http_api.channel + 'get_review_groups/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 根据节目单ID获取节目列表
+        'get_programs_by_groupid': function(data, callback) {
+            var info = form_post(bpo_http_api.channel + 'get_programs_by_groupid/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 检查此目录下的文件名是否唯一
+        'title_unique': function(data, callback) {
+            var info = post_add_token(bpo_http_api.video + 'title_unique/', data);
+            $http(info).success(callback);
+        },
+        // 获取媒资系统成品分类
+        'get_vms_directories': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_vms_directories/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 获取媒资系统分类下的视频
+        'get_vms_product_videos': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_vms_product_videos/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 导入系统来源
+        'get_copyright': function(data, callback) {
+            var info = post_add_token(bpo_http_api.video + 'get_copyright/', data);
+            $http(info).success(callback);
+        },
+        // 从媒资系统导入视频
+        'post_video_info': function(data, callback) {
+            var info = post_add_token(bpo_http_api.video + 'post_video_info/', data);
+            $http(info).success(callback);
+        },
+        // 获取新奥特媒资系统视频
+        'get_cdv_product_videos': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'get_cdv_product_videos/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        },
+        // 修改视频信息
+        'update_video': function(data, callback) {
+            var info = form_post(bpo_http_api.video + 'update_video/', data);
+            var Http = form_post_add_token(info);
+            $http(Http).success(callback);
+        }
     }
 }]);
 
-bls_service.service('bls_check', function(growl) {
+bpo_service.service('bpo_check', function(growl) {
     return {
         // id: 判断条件不同，需手动传入
         init_check: function($scope, array, id) {
@@ -118,7 +285,7 @@ bls_service.service('bls_check', function(growl) {
             var data = {};
             if (!obj.id) { // 多选
                 if (!obj.$scope.checkboxes.items.length) {
-                    growl.addErrorMessage("请至少选择一条数据", {ttl: bls_prompt.error});
+                    growl.addErrorMessage("请至少选择一条数据", {ttl: bpo_prompt.error});
                     return false;
                 }
                 for (var i = 0; i < obj.array.length; i++) {
@@ -134,7 +301,7 @@ bls_service.service('bls_check', function(growl) {
                 data[obj.data_param] = [obj.id];
             }
             if (!data[obj.data_param].length) {
-                growl.addErrorMessage("您选择的数据有误", {ttl: bls_prompt.error});
+                growl.addErrorMessage("您选择的数据有误", {ttl: bpo_prompt.error});
                 obj.$scope.checkboxes.checked = false;
                 obj.$scope.checkboxes.items = [];
                 angular.forEach(obj.array, function(data) {data.check = false;});
@@ -147,7 +314,7 @@ bls_service.service('bls_check', function(growl) {
             var data = {};
             if (!obj.id) { // 多选操作
                 if (!obj.$scope.checkboxes.items.length) {
-                    growl.addErrorMessage("请至少选择一条数据", {ttl: bls_prompt.error});
+                    growl.addErrorMessage("请至少选择一条数据", {ttl: bpo_prompt.error});
                     return false;
                 }
                 data[obj.data_param] = obj.$scope.checkboxes.items;
@@ -164,8 +331,8 @@ bls_service.service('bls_check', function(growl) {
  * 注：不要在两个分类里同时上传视频！
  * 视频文件上传时，若在其中一个分类上传同时其他分类中也有上传视频，上传后视频分类会发生错误！
  */
-bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
-    function($rootScope, $http, growl, bls_api) {
+bpo_service.service('video_upload', ["$rootScope", "$http", "growl", "bpo_api",
+    function($rootScope, $http, growl, bpo_api) {
         return {
             create: function() {
                 var uploadButton = angular.element('<input type="file" style="display:none;">')[0];
@@ -174,7 +341,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
 
                 var upload_start_timestamp = 0;
                 $rootScope.r = new Resumable({
-                    'target': bls_http_api.video + 'upload_video/',
+                    'target': bpo_http_api.video + 'upload_video/',
                     'chunkSize': 512*1024,
                     'simultaneousUploads': 5,
                     'method': 'octet',
@@ -224,7 +391,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
                         for (var j = 0; j < $rootScope.files.length; j++) {
                             var item = $rootScope.files[j];
                             if (item.fileName === file.fileName) {
-                                growl.addErrorMessage(file.fileName + "文件正在上传中！", {ttl: bls_prompt.error});
+                                growl.addErrorMessage(file.fileName + "文件正在上传中！", {ttl: bpo_prompt.error});
                                 $rootScope.r.files.splice(j+1, 1);
                                 file = null;
                                 return false;
@@ -240,12 +407,12 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
                         titles.push(fileName);
                     }
 
-                    bls_api.title_unique({
+                    bpo_api.title_unique({
                         titles: titles,
                         dir_id: $rootScope.upload_type
                     }, function(res) {
                         if (res.result.length) {
-                            return growl.addWarnMessage(res.result.join("，") + "文件名重复", {ttl: bls_prompt.error});
+                            return growl.addWarnMessage(res.result.join("，") + "文件名重复", {ttl: bpo_prompt.error});
                         }
                         // 弹出层页面上传列表
                         var video_list = [];
@@ -255,7 +422,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
                         for (var i = 0; i < files.length; i++) {
                             var index = _.indexOf(video_list, files[i].fileName);
                             if (index >= 0) {
-                                growl.addErrorMessage("待上传列表中已有选中视频！", {ttl: bls_prompt.error});
+                                growl.addErrorMessage("待上传列表中已有选中视频！", {ttl: bpo_prompt.error});
                                 return false;
                             }
                             $rootScope.upload_list.push(files[i]);
@@ -282,7 +449,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
                 //$rootScope.r.on('fileSuccess', function(file, message) {
                 //    for (var i = 0; i < $rootScope.files.length; i++) {
                 //        if($rootScope.files[i].uniqueIdentifier == file.uniqueIdentifier) {
-                //            growl.addWarnMessage($rootScope.files[i].fileName + "上传成功", {ttl: bls_prompt.success});
+                //            growl.addWarnMessage($rootScope.files[i].fileName + "上传成功", {ttl: bpo_prompt.success});
                 //            $rootScope.files.splice(i, 1);
                 //            break;
                 //        }
@@ -334,7 +501,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
     }
 ]);
 
-bls_service.service('bls_api_cancel', function($q) {
+bpo_service.service('bpo_api_cancel', function($q) {
     return {
         canceler: $q.defer(),
         cancel_request: function($q) {
@@ -345,385 +512,7 @@ bls_service.service('bls_api_cancel', function($q) {
     }
 });
 
-// 编单 节目操作
-bls_service.service('program_config', function(growl) {
-    return {
-        // 插入垫片
-        insert: function(arg, index, spacer) {
-            // 添加到中间
-            if (arg[index+1]) {
-                var gap_time = arg[index+1].start_time - arg[index].end_time;
-                if (gap_time >= spacer.duration && spacer.times == "loop") {
-                    var times = Math.floor(gap_time/spacer.duration);
-                    var timeceil = Math.ceil(gap_time/spacer.duration);
-                    if (times > 99) {
-                        growl.addWarnMessage("垫片循环次数已超过99次，请核对该操作.", {ttl: bls_prompt.error});
-                        return false;
-                    }
-
-                    if ((times*spacer.duration) < gap_time && timeceil == times) {
-                        arg.splice(index+1, 0, {
-                            name: spacer.videos[0].name,
-                            video_id: spacer.videos[0].id,
-                            live_stream_id: null
-                        });
-                        if (arg[0].type == 'intercut_play') {
-                            arg[index+1].type = 'intercut_play'
-                        } else {
-                            arg[index].type = 'order_play'
-                        }
-                        arg[index+1].start_time = arg[index].end_time;
-                        arg[index+1].end_time = arg[index+2].start_time;
-                        arg[index+1].duration = arg[index+1].end_time - arg[index+1].start_time;
-                    } else {
-                        // spacer.duration: 弹出层插入垫片总时长
-                        // gap_time: 节目单中间空隙
-                        // 垫片每条加起来总时长
-                        var addtime = 0, video_index;
-                        var video_len = spacer.videos.length;
-                        for (var i = 0; i < 9999; i++) {
-                            addtime += spacer.videos[i%video_len].duration;
-                            if (addtime >= gap_time) {
-                                // 没有空隙
-                                video_index = i;
-                                break;
-                            }
-                        }
-
-                        for (var i = 0; i <= video_index; i++) {
-                            index = index + 1;
-                            if (i == video_index) {
-                                // 插入的最后一条
-                                arg.splice(index, 0, {
-                                    name: spacer.videos[i%video_len].name,
-                                    start_time: arg[index - 1].end_time,
-                                    end_time: arg[index].start_time,
-                                    duration: arg[index].start_time - arg[index - 1].end_time,
-                                    video_id: spacer.videos[i%video_len].id,
-                                    live_stream_id: null
-                                });
-                                if (arg[0].type == 'intercut_play') {
-                                    arg[index].type = 'intercut_play'
-                                } else {
-                                    arg[index].type = 'order_play'
-                                }
-                            } else {
-                                arg.splice(index, 0, {
-                                    name: spacer.videos[i%video_len].name,
-                                    duration: spacer.videos[i%video_len].duration,
-                                    start_time: arg[index - 1].end_time,
-                                    end_time: arg[index - 1].end_time + spacer.videos[i%video_len].duration,
-                                    video_id: spacer.videos[i%video_len].id,
-                                    live_stream_id: null
-                                });
-                                if (arg[0].type == 'intercut_play') {
-                                    arg[index].type = 'intercut_play'
-                                } else {
-                                    arg[index].type = 'order_play'
-                                }
-                            }
-                        }
-                    }
-                } else if(gap_time < spacer.duration){
-                    // spacer.duration: 弹出层插入垫片总时长
-                    // gap_time: 节目单中间空隙
-                    // 垫片每条加起来总时长
-                    var addtime = 0, video_index;
-
-                    for (var i = 0; i < spacer.videos.length; i++) {
-                        addtime += spacer.videos[i].duration;
-                        if (addtime > gap_time) {
-                            // 没有空隙
-                            video_index = i;
-                            break;
-                        }
-                    }
-
-                    for (var i = 0; i <= video_index; i++) {
-                        index = index + 1;
-                        if (i == video_index) {
-                            // 插入的最后一条
-                            arg.splice(index, 0, {
-                                name: spacer.videos[i].name,
-                                start_time: arg[index - 1].end_time,
-                                end_time: arg[index].start_time,
-                                duration: arg[index].start_time - arg[index - 1].end_time,
-                                video_id: spacer.videos[i].id,
-                                live_stream_id: null
-                            });
-                            if (arg[0].type == 'intercut_play') {
-                                arg[index].type = 'intercut_play'
-                            } else {
-                                arg[index].type = 'order_play'
-                            }
-                        } else {
-                            arg.splice(index, 0, {
-                                name: spacer.videos[i].name,
-                                duration: spacer.videos[i].duration,
-                                start_time: arg[index - 1].end_time,
-                                end_time: arg[index - 1].end_time + spacer.videos[i].duration,
-                                video_id: spacer.videos[i].id,
-                                live_stream_id: null
-                            });
-                            if (arg[0].type == 'intercut_play') {
-                                arg[index].type = 'intercut_play'
-                            } else {
-                                arg[index].type = 'order_play'
-                            }
-                        }
-                    }
-
-                } else if (gap_time >= spacer.duration && spacer.times == "one") {
-                    for (var i = 0; i < spacer.videos.length; i++) {
-                        index = index + 1;
-                        arg.splice(index, 0, {
-                            name: spacer.videos[i].name,
-                            duration: spacer.videos[i].duration,
-                            start_time: arg[index-1].end_time,
-                            end_time: arg[index-1].end_time + spacer.videos[i].duration,
-                            video_id: spacer.videos[i].id,
-                            live_stream_id: null
-                        });
-                        if (arg[0].type == 'intercut_play') {
-                            arg[index].type = 'intercut_play'
-                        } else {
-                            arg[index].type = 'order_play'
-                        }
-                    }
-                }
-            } else {
-                for (var i = 0; i < spacer.videos.length; i++) {
-                    index = index + 1;
-                    arg.splice(index, 0, {
-                        name: spacer.videos[i].name,
-                        duration: spacer.videos[i].duration,
-                        start_time: arg[index-1].end_time,
-                        end_time: arg[index-1].end_time + spacer.videos[i].duration,
-                        video_id: spacer.videos[i].id,
-                        live_stream_id: null
-                    });
-                    if (arg[0].type == 'intercut_play') {
-                        arg[index].type = 'intercut_play'
-                    } else {
-                        arg[index].type = 'order_play'
-                    }
-                }
-            }
-        },
-        // 删除 + 顺播时间对齐
-        init_delete: function(arg, index) {
-            if (index == 0) {
-                var flag_time = arg[index].start_time;
-            } else {
-                var flag_time = arg[index-1].end_time;
-            }
-            arg.splice(index, 1);
-            for (var i = 0; i < arg.length; i++) {
-                if(i >= index) {
-                    if (i == index && arg[i].type != "timing") {
-                        arg[i].start_time = flag_time;
-                        arg[i].end_time = arg[i].start_time + arg[i].duration;
-                    } else if (i > index && arg[i].type != "timing" ) {
-                        arg[i].start_time = arg[i-1].end_time;
-                        arg[i].end_time = arg[i].start_time + arg[i].duration;
-                    } else if (arg[i].type == "timing") {
-                        break;
-                    }
-                }
-            }
-        },
-        // 向上移动
-        init_moveUp: function(arg, index) {
-            // 两节目中间时间间隔
-            var gap_time = arg[index].start_time - arg[index-1].end_time;
-
-            var temp_data = arg[index-1];
-            arg[index-1] = arg[index];
-            arg[index] = temp_data;
-
-            arg[index-1].start_time = arg[index].start_time;
-            arg[index-1].end_time = arg[index-1].start_time + arg[index-1].duration;
-            arg[index].start_time = arg[index-1].end_time + gap_time;
-            arg[index].end_time = arg[index].start_time + arg[index].duration;
-        },
-        // 向下移动
-        init_moveDown: function(arg, index) {
-            // 两节目中间时间间隔
-            var gap_time = arg[index+1].start_time - arg[index].end_time;
-
-            var temp_data = arg[index];
-            arg[index] = arg[index+1];
-            arg[index+1] = temp_data;
-
-            arg[index].start_time = arg[index+1].start_time;
-            arg[index].end_time = arg[index].start_time + arg[index].duration;
-            arg[index+1].start_time = arg[index].end_time + gap_time;
-            arg[index+1].end_time = arg[index+1].start_time + arg[index+1].duration;
-        },
-        // 重置index
-        init_index: function(arg) {
-            angular.forEach(arg, function(data, index) {
-                data.index = index;
-            })
-        },
-        // 播出时间点是否已被占用(若被占用返回true)
-        is_same_start_time: function(arg, flag_time) {
-            var len = arg.length;
-            for (var i = 0; i < len; i++) {
-                if (arg[i].start_time == flag_time) {
-                    return true;
-                }
-            }
-            return false;
-        },
-        // 插入节目时间段是否被占用(不能添加返回true)
-        notInsert: function(arg, item) {
-            var len = Object.size(arg);
-            if (len>0) {
-                for (var i = 0; i < len; i++) {
-                    if ((parseInt(item.start_time/1000) >= parseInt(arg[i].start_time/1000) && parseInt(item.start_time/1000) < parseInt(arg[i].end_time/1000)) ||
-                        (parseInt(item.end_time/1000) > parseInt(arg[i].start_time/1000) && parseInt(item.end_time/1000) <= parseInt(arg[i].end_time/1000)) ||
-                        (parseInt(arg[i].start_time/1000) >= parseInt(item.start_time/1000) && parseInt(arg[i].start_time/1000) < parseInt(item.end_time/1000)) ||
-                        (parseInt(arg[i].end_time/1000) > parseInt(item.start_time/1000) && parseInt(arg[i].end_time/1000) <= parseInt(item.end_time/1000))){
-                        return {
-                            bFlag: true,
-                            tip: absolute_seconds_to_YYYYmmdd_hhmmss(arg[i].start_time) + "---"
-                            + absolute_seconds_to_YYYYmmdd_hhmmss(arg[i].end_time) + "时间段已被占用"
-                        };
-                    }
-                }
-            }
-            return {
-                bFlag: false
-            }
-        },
-        // 允许插入情况下插入节目
-        insert_program: function(arg, item) {
-            var len = Object.size(arg);
-            if (len == 0) {
-                arg.push(item);
-                return false;
-            }
-            if (item.end_time <= arg[0].start_time) {
-                arg.unshift(item);
-            } else if (item.start_time >= arg[len-1].end_time) {
-                arg.push(item);
-            } else {
-                for (var i = 0; i < len; i++) {
-                    if (item.start_time >= arg[i].end_time && item.end_time <= arg[i+1].start_time){
-                        arg.splice(i+1, 0, item);
-                        break;
-                    }
-                }
-            }
-        },
-        // 插播时间段是否被占用(若被占用返回true)
-        is_invalid_play_duration: function(insert_range, ranges) {
-            var len = ranges.length;
-            for (var i = 0; i < len; i++) {
-                if ((insert_range.start_time >= ranges[i][0] && insert_range.start_time < ranges[i][1]) ||
-                    (insert_range.end_time > ranges[i][0] && insert_range.end_time <= ranges[i][1])) {
-                    return true;
-                }
-            }
-        },
-        // 能否向上移动(允许向上移动返回true) 能否向下移动(允许向下移动返回true)
-        canMove: function(arg) {
-            var len = arg.length;
-            angular.forEach(arg, function(data, index) {
-                if (index > 0 && ((data.type == "order_play" && arg[index-1].type == "order_play")
-                    || data.type == "intercut_play")) {
-                    data.canMoveUp = true;
-                } else {
-                    data.canMoveUp = false;
-                }
-
-                if (arg[index+1]) {
-                    if (((data.type == "order_play" && arg[index+1].type == "order_play") || data.type == "intercut_play") && index < len) {
-                        data.canMoveDown = true;
-                    } else {
-                        data.canMoveDown = false;
-                    }
-                } else {
-                    data.canMoveDown = false;
-                }
-            });
-        },
-        // 插播是否在顺播/定时播节目单时间段之外（若是则返回true)
-        intercut_to_empty_proamgs: function(insert_item, ranges) {
-            var len = Object.size(ranges);
-            if (len == 0) {
-                return true;
-            }
-            else {
-                var num = 0;
-                for (var i = 0; i < len; i++) {
-                    if (!((insert_item.start_time >= ranges[i][0] && insert_item.start_time < ranges[i][1])
-                        || (insert_item.end_time > ranges[i][0] && insert_item.end_time <= ranges[i][1]))) {
-                        num++;
-                    }
-                }
-                if (num == len) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        },
-        //  查询空隙位置
-        search_gap: function(arg) {
-            var len = Object.size(arg);
-            if (len <= 1) {
-                return {bFlag: false};
-            }
-            var obj = {
-                bFlag: false,
-                arr: []
-            };
-            angular.forEach(arg, function(data, index) {
-                if (index != len-1) {
-                    if (data.end_time != arg[index+1].start_time) {
-                        obj.bFlag = true;
-                        obj.arr.push(data.name);
-                    }
-                }
-            });
-            return obj;
-        },
-        // 重置所有input状态和时间
-        // add by ws
-        init_input_time: function(arg) {
-            angular.forEach(arg, function(data) {
-                delete data.check;
-                delete data.disabled;
-            });
-            // 首项不需要调整
-            for (var i = 1; i < arg.length; i++) {
-                var item = arg[i];
-                if (item.type == "timing") continue;
-                item.start_time = arg[i-1].end_time;
-                item.end_time = item.start_time + item.duration;
-            }
-        }
-    }
-});
-
-bls_service.service('add_programs', function() {
-   return {
-       check_type: function($scope, arg) {
-           angular.forEach(arg, function(data) {
-               if (data.type == "intercut_play") {
-                   $scope.has_intercut_play = true;
-               }
-               if (data.type == "timing" || data.type == "order_play") {
-                   $scope.has_except_intercut_play = true;
-               }
-           });
-       }
-   }
-});
-
-bls_service.service('odd_datepicker', function() {
+bpo_service.service('odd_datepicker', function() {
     return {
         date: function($scope) {
             $scope.odd_status = false;
@@ -739,7 +528,7 @@ bls_service.service('odd_datepicker', function() {
     }
 });
 
-bls_service.service('datepicker', function() {
+bpo_service.service('datepicker', function() {
     return {
         init_date: function($scope) {
             $scope.status = {
@@ -773,41 +562,7 @@ bls_service.service('datepicker', function() {
     }
 });
 
-bls_service.service('datepicker_14', function() {
-    return {
-        init_date: function($scope, flag_time) {
-            $scope.status = {
-                start_opened: false,
-                end_opened: false
-            };
-            $scope.format = 'yyyy/MM/dd';
-            $scope.dateOptions = {
-                dateDisabled: disabled,
-                formatYear: 'yy',
-                startingDay: 1,
-                showWeeks: false
-            };
-            $scope.start_dt = new Date();
-            $scope.end_dt = new Date();
-            // Disable weekend selection
-            function disabled(data) {
-                var date = data.date,
-                    mode = data.mode;
-                if ($scope.status.start_opened) {
-                    return mode === 'day' && (date >= new Date($scope.end_dt.getTime() + 86400000) ||
-                        date < new Date(get_current_day_time_zero_stamp()));
-                } else {
-                    return mode === 'day' && (date <= new Date($scope.start_dt.getTime() - 86400000));
-                }
-            }
-            $scope.open_datepicker = function(sign) {
-                (sign == 'start') ? $scope.status.start_opened = true : $scope.status.end_opened = true;
-            };
-        }
-    }
-});
-
-bls_service.service('third_menu', function() {
+bpo_service.service('third_menu', function() {
     return function(list, num) {
         /**
          * num为2时适用素材管理素材类别、编单添加素材、垫片， 为3时适用频道类别。
@@ -834,11 +589,11 @@ bls_service.service('third_menu', function() {
     }
 });
 
-bls_service.provider('bls_http_error', [function() {
+bpo_service.provider('bpo_http_error', [function() {
     this.$get = ['$rootScope', 'growl', function($rootScope, growl) {
         return {
             http_error_handler: function(result, status) {
-                $rootScope.$broadcast('bls_on_error', result, status);
+                $rootScope.$broadcast('bpo_on_error', result, status);
             },
             /*
              event: obj // angularjs http event obj
@@ -848,8 +603,8 @@ bls_service.provider('bls_http_error', [function() {
              status: number // http response or request status，例如200, 401
              **/
             on_response_error: function($scope, callback) {
-                $scope.$on('bls_on_error', function(event, result) {
-                    growl.addErrorMessage(result, {ttl: bls_prompt.error});
+                $scope.$on('bpo_on_error', function(event, result) {
+                    growl.addErrorMessage(result, {ttl: bpo_prompt.error});
                     callback && callback();
                 });
             }
@@ -858,7 +613,7 @@ bls_service.provider('bls_http_error', [function() {
 }]);
 
 // intercept http error
-bls_service.factory('MHttpInterceptor', ['$q', 'bls_http_error', function($q, bls_http_error) {
+bpo_service.factory('MHttpInterceptor', ['$q', 'bpo_http_error', function($q, bpo_http_error) {
     // register the interceptor as a service
     // @see: https://code.angularjs.org/1.2.0-rc.3/docs/api/ng.$http
     // @remark: the function($q) should never add other params.
@@ -884,11 +639,11 @@ bls_service.factory('MHttpInterceptor', ['$q', 'bls_http_error', function($q, bl
         'response': function(response) {
             // 验证权限跳转→登录页面
             if (response.data.status && response.data.status == Errors.redirect) {
-                window.location.href = response.data.result + '?next=' + BLS_ROOT;
+                window.location.href = response.data.result + '?next=' + BPO_ROOT;
             }
 
             if (response.data.status && response.data.status != Errors.success) {
-                bls_http_error.http_error_handler(response.data.result, response.status);
+                bpo_http_error.http_error_handler(response.data.result, response.status);
                 return $q.reject(response.data.result);
             }
             return response || $q.when(response);
@@ -903,12 +658,12 @@ bls_service.factory('MHttpInterceptor', ['$q', 'bls_http_error', function($q, bl
          }
          **/
         'responseError': function(rejection) {
-            bls_http_error.http_error_handler(null, rejection.status);
+            bpo_http_error.http_error_handler(null, rejection.status);
             return $q.reject(rejection.status);
         }
     };
 }]);
 
-bls_service.config(['$httpProvider', function($httpProvider) {
+bpo_service.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('MHttpInterceptor')
 }]);

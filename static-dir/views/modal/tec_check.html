@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span>×</span></button>
+    <h4 class="modal-title">技术审核</h4>
+</div>
+<div class="modal-body fs12">
+    <perfect-scrollbar class="scroller maxH610" wheel-propagation="true" wheel-speed="10" min-scrollbar-length="20">
+        <div class="m-table m-table1 f-sd">
+            <div class="u-th padL15">视频元信息</div>
+            <table width="96%" class="u-tb2 f-cb" align="center">
+                <tbody>
+                <tr>
+                    <td width="20%">时长：</td>
+                    <td class="f-c1" width="30%">{{tec_check.video_info.duration}}</td>
+                    <td width="20%">格式：</td>
+                    <td class="f-c1">{{tec_check.video_info.file_type}}</td>
+                </tr>
+                <tr class="evenrow">
+                    <td>码率：</td>
+                    <td class="f-c1">{{tec_check.video_info.bitrate}}Kbps</td>
+                    <td>帧率：</td>
+                    <td class="f-c1">{{tec_check.video_info.fps}}FPS</td>
+                </tr>
+                <tr>
+                    <td>分辨率：</td>
+                    <td class="f-c1">{{tec_check.video_info.width}}*{{tec_check.video_info.height}}px</td>
+                    <td>文件大小：</td>
+                    <td class="f-c1">{{tec_check.video_info.size | CalculateBUnit}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="m-table m-table1 f-sd">
+            <div class="u-th padL15">技审分析</div>
+            <div class="m-table-box">
+                <table width="96%" class="u-tb2 f-cb" align="center">
+                    <tbody>
+                    <tr>
+                        <td width="20%">时间：</td>
+                        <td class="f-c2">错误信息：</td>
+                    </tr>
+                    <tr class="evenrow" ng-repeat="t in tec_check.review_list">
+                        <td>{{t.time_area}}</td>
+                        <td class="f-c2">{{t.info}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </perfect-scrollbar>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary u-btn f-c3" ng-click="tec_pass()">手动通过</button>
+</div>
