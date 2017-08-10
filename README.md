@@ -10,6 +10,22 @@ video play outstream contol
 * 分类 category
 * 节目单 guide ??
 
+### get_user_info
+* api: /account/get_user_info
+* method: GET
+* response
+```
+{
+  "code": 0,
+  "data": {
+    "id": 1,
+    "username": "admin",
+    "email": "lebing.zhou@gmail.com",
+    "cellphone": "17701154560"
+  }
+}
+```
+
 ### get_menu_list
 
 * api: /account/get_menu_list
@@ -64,8 +80,7 @@ video play outstream contol
         }
       ]
     }
-  ],
-  "server": 63576
+  ]
 }
 ```
 
