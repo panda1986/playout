@@ -82,9 +82,29 @@ var get_menu_list = function() {
     //     }
     // });
 };
+// console.log(hasCookie('sessionid'));
+// if (!hasCookie('sessionid')) {
+    // window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=' + 'http://' + BPO_ROOT;
+// } 
+
+// function get_token() {
+//     var current_href, token;
+//     current_href = window.location.href;
+//     console.log(current_href);
+//     if (current_href.indexOf("token=") < 0) {
+//         window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=http://'+ BPO_ROOT;
+//     }
+//     token = current_href.split("token=")[1];
+//     if (token.indexOf("#/bls")) {
+//         token = token.split("#/bls")[0];
+//     }
+//     return token;
+// }
+
 
 var bpo_http_api = {
-    accounts: "/accounts/ajax/",
+    accounts: "/account/",
+    // /account/get_menu_list
     channel: "/channel/ajax/",
     video: "/video/ajax/"
 };
@@ -107,20 +127,6 @@ var Errors = {
     'ui_not_found': 404,
     'ui_interface_url_error': 500
 };
-
-function get_token() {
-    var current_href, token;
-    current_href = window.location.href;
-    if (current_href.indexOf("token=") < 0) {
-        window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=' + 'http://' + BPO_ROOT;
-    }
-    token = current_href.split("token=")[1];
-    console.log(token);
-    if (token.indexOf("#/bpo")) {
-        token = token.split("#/bpo")[0];
-    }
-    return token;
-}
 
 var bufferTime = 1.2;
 function srs_get_version_code() {

@@ -12,8 +12,10 @@ var bravo_bpo = angular.module("bravo_bpo", ["base_modular", "bpo_service", "bpo
 
 bravo_bpo.run(["$rootScope", "$state", "$stateParams", "bpo_api", "$http",
     function($rootScope, $state, $stateParams, bpo_api, $http) {
-        var token = get_token();
+        // var url = window.location.href;
+        // var token = get_token();
 
+        // setCookie('sessionid', )
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         $rootScope.app = {
@@ -23,44 +25,22 @@ bravo_bpo.run(["$rootScope", "$state", "$stateParams", "bpo_api", "$http",
 
         // this is upload files list, not update this name!
         $rootScope.files = [];
+       // if (!hasCookie('sessionid')) {
+       //      window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=' + 'http://' + BPO_ROOT;
+       //  } else {
+       //    // $rootScope.app.umsinfo.user_id = res.data.result.id;
+       //      // $rootScope.app.umsinfo.username = res.data.result.username;
+       //      $rootScope.app.top_nav = top_nav;
+       //  }
 
-        // 单点登录通过jsonp验证是否为登录状态
-        /**
-         * ---- Jquery Jsonp ----
-         * --- 1 ---
-         * $.getJSON(UMS_ROOT + '/accounts/ajax/login_status/?callback=?', function(data) {
-         *      if (data.status == 'success') {
-         *          // xxxxxx
-         *      } else {
-         *          // xxxxxx
-         *      }
-         * });
-         * --- 2 ---
-         * $.ajax({
-         *      url: 'UMS_ROOT + '/accounts/ajax/login_status/?callback=?',
-         *      dataType: "jsonp",
-         *      jsonpCallback: "jsonpCallback",
-         *      success: function(data) {
-         *          // xxxxxx
-         *      }
-         * });
-         */
-        // Angular jsonp
-        $http({
-            'url': UMS_ROOT + '/accounts/ajax/get_user/?callback=?',
-            'method': 'jsonp',
-            'params': {
-                'callback': 'JSON_CALLBACK',
-                'token': token
-            }
-        }).then(function successCallback(res) {
-            $rootScope.app.umsinfo.user_id = res.data.result.id;
-            $rootScope.app.umsinfo.username = res.data.result.username;
-            $rootScope.app.top_nav = top_nav;
-        }, function errorCallback(res) {
-            window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT; // 登录直接进入bpo
-            //window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=/'; // 登录进入系统中心
-        });
+
+        //  if (!token) {
+        //     // window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=' + 'http://' + BPO_ROOT;
+        // } else {
+        //   // $rootScope.app.umsinfo.user_id = res.data.result.id;
+        //     // $rootScope.app.umsinfo.username = res.data.result.username;
+        //     $rootScope.app.top_nav = top_nav;
+        // }
     }
 ]);
 
