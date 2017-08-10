@@ -2,26 +2,26 @@
 var bls_directive = angular.module("bls_directive", []);
 
 /* Nav toggle */
-// bls_directive.directive('navToggle', function() {
-//     return {
-//         restrict: 'EA',
-//         link: function (scope, element, attr) {
-//             var _this;
-//             element.click(function() {
-//                 _this = $(this);
-//                 if (_this.hasClass("u-unfold")) {
-//                     _this.removeClass("u-unfold");
-//                     $(".g-sd1").show();
-//                     $(".g-hd,.g-mn1").css({"marginLeft": "210px"});
-//                 } else {
-//                     _this.addClass("u-unfold");
-//                     $(".g-sd1").hide();
-//                     $(".g-hd,.g-mn1").css({"marginLeft": "0"});
-//                 }
-//             });
-//         }
-//     };
-// });
+bls_directive.directive('navToggle', function() {
+    return {
+        restrict: 'EA',
+        link: function (scope, element, attr) {
+            var _this;
+            element.click(function() {
+                _this = $(this);
+                if (_this.hasClass("u-unfold")) {
+                    _this.removeClass("u-unfold");
+                    $(".g-sd1").show();
+                    $(".g-hd,.g-mn1").css({"marginLeft": "210px"});
+                } else {
+                    _this.addClass("u-unfold");
+                    $(".g-sd1").hide();
+                    $(".g-hd,.g-mn1").css({"marginLeft": "0"});
+                }
+            });
+        }
+    };
+});
 
 bls_directive.directive('restoreNav', function () {
     return {

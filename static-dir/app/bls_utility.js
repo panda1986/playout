@@ -2,67 +2,67 @@
  * 获取登录后显示页面首页及权限
  */
 /** XXX 版本更新时请更改bls_version参数，以更新客户端代码（index.html中utility.js也要改） **/
-var bls_version = '?version=0';
-// var top_nav = {};
-// var dashboard = {};
-// var get_menu_list = function() {
-//     $.ajax({
-//         url: "/accounts/ajax/get_menu_list/",
-//         type: 'post',
-//         data: {m_type: 0},
-//         async: false,
-//         success: function(data) {
-//             if (data.status != 'success') {
-//                 window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
-//             }
-//             for (var i = 0; i < data.result.length; i++) {
-//                 var item = data.result[i];
-//                 switch (item.name) {
-//                     case "素材管理":
-//                         top_nav.material = true;
-//                         break;
-//                     case "审批管理":
-//                         top_nav.check = true;
-//                         angular.forEach(item.child_menu, function(data) {
-//                             if (data.name == "素材审核" && data.selected) {
-//                                 top_nav.VODcheck = true;
-//                             }
-//                             if (data.name == "直播源审核" && data.selected) {
-//                                 top_nav.liveCheck = true;
-//                             }
-//                             if (data.name == "编单审核" && data.selected) {
-//                                 top_nav.editProCheck = true;
-//                             }
-//                         });
-//                 }
-//             }
+var bls_version = '?version=1ad633106c20170804';
+var top_nav = {};
+var dashboard = {};
+var get_menu_list = function() {
+    $.ajax({
+        url: "/accounts/ajax/get_menu_list/",
+        type: 'post',
+        data: {m_type: 0},
+        async: false,
+        success: function(data) {
+            if (data.status != 'success') {
+                window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+            }
+            for (var i = 0; i < data.result.length; i++) {
+                var item = data.result[i];
+                switch (item.name) {
+                    case "素材管理":
+                        top_nav.material = true;
+                        break;
+                    case "审批管理":
+                        top_nav.check = true;
+                        angular.forEach(item.child_menu, function(data) {
+                            if (data.name == "素材审核" && data.selected) {
+                                top_nav.VODcheck = true;
+                            }
+                            if (data.name == "直播源审核" && data.selected) {
+                                top_nav.liveCheck = true;
+                            }
+                            if (data.name == "编单审核" && data.selected) {
+                                top_nav.editProCheck = true;
+                            }
+                        });
+                }
+            }
 
-//             // todo ;
-//             //for (var i = 0; i < data.result.length; i++) {
-//             //    var item = data.result[i];
-//             //    if (item.selected) {
-//             //        dashboard.otherwise = item.name;
-//             //        dashboard.vms_nav_menu = data.result;
-//             //        break;
-//             //    }
-//             //}
+            // todo ;
+            //for (var i = 0; i < data.result.length; i++) {
+            //    var item = data.result[i];
+            //    if (item.selected) {
+            //        dashboard.otherwise = item.name;
+            //        dashboard.vms_nav_menu = data.result;
+            //        break;
+            //    }
+            //}
 
-//             // todo delete it
-//             for (var i = 0; i < data.result.length; i++) {
-//                 var item = data.result[i];
-//                 if (item.name == ('素材管理' || '审批管理') && item.selected) {
-//                     dashboard.otherwise = item.name;
-//                     dashboard.vms_nav_menu = data.result;
-//                     break;
-//                 }
-//             }
+            // todo delete it
+            for (var i = 0; i < data.result.length; i++) {
+                var item = data.result[i];
+                if (item.name == ('素材管理' || '审批管理') && item.selected) {
+                    dashboard.otherwise = item.name;
+                    dashboard.vms_nav_menu = data.result;
+                    break;
+                }
+            }
 
-//         },
-//         // error: function(data) {
-//         //     window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
-//         // }
-//     });
-// };
+        },
+        error: function(data) {
+            window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+        }
+    });
+};
 
 var bls_http_api = {
     accounts: "/accounts/ajax/",

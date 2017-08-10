@@ -85,7 +85,7 @@ bravo_bls.constant('JS_REQUIRES', {
         /* 审批管理 */
         'checkCtrl': 'app/controllers/check/checkCtrl.js' + bls_version,
         'vodCheckCtrl': 'app/controllers/check/vodCheckCtrl.js' + bls_version,
-        'liveCheckCtrl': 'app/controllers/check/liveCheckCtrl.js' + bls_version,
+	    'liveCheckCtrl': 'app/controllers/check/liveCheckCtrl.js' + bls_version,
         'editProgramsCheckCtrl': 'app/controllers/check/editProgramsCheckCtrl.js' + bls_version,
         /* -------- vendor -------- */
         'srs.player': ['vendor/SRS/srs.player.js' + bls_version, 'vendor/SRS/swfobject.js' + bls_version],

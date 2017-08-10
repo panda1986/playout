@@ -1,0 +1,56 @@
+<div class="g-mn1c" ng-controller="liveCtrl">
+    <span us-spinner="{radius:20, width:10, length: 20, scale: 0.5, corners: 1, rotate: 0, direction: 1, color: '#5882FA', speed: 1.5, trail: 60}"><span class="loading_bg"></span></span>
+    <div class="m-crumb fs12">素材管理 / 直播流素材</div>
+    <div class="m-op f-cb">
+        <button class="pull-left u-btn f-c3 marL20" type="button" ng-click="create_live()">创建直播</button>
+    </div>
+    <div class="m-table f-sd">
+        <div class="delete_input">
+            <input type="checkbox" class="vertical_top" ng-model="checkboxes.checked" ng-click="check_all()"/>
+            <a href="javascript:;" class="active marL10 fs12" ng-click="delete_live()">删除</a>
+        </div>
+        <div class="u-tb f-sd">
+            <table width="100%" class="u-tb1 u-tb5">
+                <thead>
+                    <tr>
+                        <th class="u-tlr padL40" width="15%">直播源名称</th>
+                        <th>主信号源地址</th>
+                        <th>备信号源地址</th>
+                        <th>描述</th>
+                        <th>审核人/审核时间</th>
+                        <th>审核状态</th>
+                        <th>操作</th>
+                    <tr>
+                </thead>
+                <tbody class="u-td1">
+                    <tr ng-repeat="item in datas">
+                        <td><input type="checkbox" ng-model="item.check" ng-click="item_check()" class="vertical_top"><span class="marginL13">{{item.name}}</span></td>
+                        <td><a uib-popover="点击预览视频" popover-trigger="'mouseenter'" ng-click="see_video(item.master_view_url)">{{item.master_src}}</a></td>
+                        <td><a uib-popover="点击预览视频" popover-trigger="'mouseenter'" ng-click="see_video(item.standby_view_url)">{{item.standby_src}}</a></td>
+                        <td>{{item.desc | filterNull}}</td>
+                        <td>{{item._review_operator}}</td>
+                        <td ng-class="{'0': 'f-c2', '2': 'f-c4', '3': 'f-c5'}[item.status]">
+                            {{item.status | live_status}}
+                            <div>
+                                <a ng-if="item.status==3" ng-click="check_stream(item.id)">审核详情</a>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="javascript:;" ng-click="modify_live(item.id)">编辑</a>
+                            <a href="javascript:;" class="marL10" ng-click="delete_live(item.id)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="m-page text-right">
+            <ul uib-pagination ng-change="pageChanged()"
+                total-items="bigTotalItems"
+                ng-model="bigCurrentPage"
+                items-per-page="itemsPerPage"
+                max-size="maxSize"
+                class="pagination-sm"
+                boundary-link-numbers="true"></ul>
+        </div>
+    </div>
+</div>

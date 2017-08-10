@@ -1,0 +1,102 @@
+<div class="g-mn1c" ng-controller="editProgramsCheckCtrl">
+    <span us-spinner="{radius:20, width:10, length: 20, scale: 0.5, corners: 1, rotate: 0, direction: 1, color: '#5882FA', speed: 1.5, trail: 60}"><span
+            class="loading_bg"></span></span>
+    <div class="m-crumb fs12">审批管理 / 编单审核</div>
+    <div class="m-op f-cb">
+
+        <div class="pull-left u-chkList marL20">频道类别:</div>
+        <div class="pull-left u-chkList mar0_5 w120">
+            <select class="u-select u-select1"
+                    ng-options="x.id as x.name for x in channel_types"
+                    ng-model="selected_channel_type"
+                    ng-change="select_channel_type()"></select>
+        </div>
+        <div class="pull-left u-chkList marL20">频道名称:</div>
+        <div class="pull-left u-chkList mar0_5 w120">
+            <select class="u-select u-select1"
+                    ng-options="x.channel_id as x.channel_name for x in channels"
+                    ng-model="selected_channel"
+                    ng-change="search()"></select>
+        </div>
+        <div class="pull-left u-chkList marL20">审批状态</div>
+        <div class="pull-left u-chkList mar0_5">
+            <select class="u-select u-select1" ng-model="current_status" ng-change="search()"
+                    ng-options="a.sign as a.name for a in status_options">
+            </select>
+        </div>
+        <div class="pull-left u-chkList marL20">播出日期</div>
+        <div class="pull-left marL20">
+            <p class="input-group vms_datepicker">
+                <input type="text" class="h28 form-control blss_input" uib-datepicker-popup ng-model="start_dt"
+                       is-open="status.start_opened" datepicker-options="dateOptions" close-text="关闭" current-text="今天" readOnly="true" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open_datepicker('start')">
+                        <i class="vms_datepicker_icon"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+        <div class="pull-left u-chkList">——</div>
+        <div class="pull-left">
+            <p class="input-group vms_datepicker">
+                <input type="text" class="h28 form-control blss_input" uib-datepicker-popup ng-model="end_dt"
+                       is-open="status.end_opened" datepicker-options="dateOptions" close-text="关闭" current-text="今天" readOnly="true" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open_datepicker('end')">
+                        <i class="vms_datepicker_icon"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+        <div class="pull-left u-chkList">
+            <button class="u-btn f-c3 mar0_5" type="button" ng-click="search()">查询</button>
+        </div>
+
+    </div>
+    <div class="m-table f-sd">
+        <div class="u-tb f-sd">
+            <table width="100%" class="u-tb1 u-tb5">
+                <thead>
+                <tr>
+                    <th>频道</th>
+                    <th>节目单名称</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>播出单时长</th>
+                    <th>编单人/创建时间</th>
+                    <th class="u-trr">审批状态</th>
+                    <th class="u-trr">操作</th>
+                <tr>
+                </thead>
+                <tbody class="u-td1">
+                <tr ng-repeat="item in $data">
+                    <td>{{item.channel_name}}</td>
+                    <td>
+                        <a ng-click="details(item)" uib-popover="查看详情" popover-trigger="'mouseenter'">{{item.name}}</a>
+                    </td>
+                    <td>{{item.start_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{item.end_time| date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{item.duration | seconds_to_hhmmss}}</td>
+                    <td>{{item.operator}} | {{item.add_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td ng-class="{'0': 'f-c2', '2': 'f-c4', '3': 'f-c5'}[item.status]">{{item.status | live_status}}</td>
+                    <td>
+                        <a href="javascript:;" ng-if="item.status == 0 && !item.overTime" ng-click="review(item.id, item.start_time)">审批</a>
+                        <span href="javascript:;" ng-if="(item.status == 0 && item.overTime)" class="f-c5">未审作废</span>
+                        <span href="javascript:;" ng-if="item.status != 0">——</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="m-page text-right">
+            <ul uib-pagination
+                ng-change="pageChanged()"
+                items-per-page="itemsPerPage"
+                total-items="bigTotalItems"
+                ng-model="bigCurrentPage"
+                max-size="maxSize"
+                class="pagination-sm"
+                boundary-link-numbers="true"></ul>
+        </div>
+    </div>
+</div>
