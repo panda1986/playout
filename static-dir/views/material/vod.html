@@ -13,7 +13,7 @@
         <div class="pull-left u-chkList marL10">素材名称
             <input class="w104 u-select" type="text" ng-model="video_data.title" placeholder="请输入名称">
         </div>
-        <div class="pull-left u-chkList marL10">分辨率</div>
+        <!-- <div class="pull-left u-chkList marL10">分辨率</div>
         <div class="pull-left u-chkList mar0_5">
             <input class="w104 u-select" type="text" ng-model="video_data.resolution" placeholder="请输入分辨率">
         </div>
@@ -23,7 +23,7 @@
                 <input class="w60 u-select minw60 marR5" type="number" ng-pattern="/^[0-9]+$/" ng-model="video_data.video_bitrate_min">M —
                 <input class="w60 u-select minw60 marL5 marR5" type="number" ng-pattern="/^[0-9]+$/" ng-model="video_data.video_bitrate_max">M
             </div>
-        </form>
+        </form> -->
         <div class="pull-left u-chkList">
             <button class="u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="search()" ng-disabled="bitrateInfo.$invalid">查询</button>
         </div>
@@ -31,7 +31,7 @@
         <!--从新奥特导入素材-->
         <button ng-if="copyright=='weilai'" class="pull-right u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="import_videos(directory_options)">导入素材</button>
         <!--从VMS导入素材-->
-        <button ng-if="copyright=='trunk'" class="pull-right u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="import_material(directory_options)">导入素材</button>
+        <!-- <button ng-if="copyright=='trunk'" class="pull-right u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="import_material(directory_options)">导入素材</button> -->
     </div>
     <div class="m-table f-sd">
         <div class="delete_input">

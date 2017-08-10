@@ -1,7 +1,7 @@
 'use strict';
-var bls_service = angular.module("bls_service", []);
+var bpo_service = angular.module("bpo_service", []);
 
-bls_service.service("bls_api", ["$http", function($http) {
+bpo_service.service("bpo_api", ["$http", function($http) {
     var form_post = function(url, data) {
         return {
             'url': url,
@@ -22,7 +22,7 @@ bls_service.service("bls_api", ["$http", function($http) {
         // todo: 暂时保留token
         //var token = get_token();
         //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
         //}
         //info.data.token = token;
         return info;
@@ -31,7 +31,7 @@ bls_service.service("bls_api", ["$http", function($http) {
         // todo: 暂时保留token
         //var token = get_token();
         //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
         //}
         var info = {
             'url': url,
@@ -45,7 +45,7 @@ bls_service.service("bls_api", ["$http", function($http) {
         // todo: 暂时保留token
         //var token = get_token();
         //if (!token.length) {
-        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+        //    window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
         //}
         //var info = {
         //    'url': url + "?token=" + token,
@@ -61,193 +61,193 @@ bls_service.service("bls_api", ["$http", function($http) {
     return {
         // 获取用户对应的菜单/目录列表
         'get_menu_list': function(data, callback) {
-            var info = form_post(bls_http_api.accounts + 'get_menu_list/', data);
+            var info = form_post(bpo_http_api.accounts + 'get_menu_list/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取视频列表
         'get_video_list': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_video_list/', data);
+            var info = form_post(bpo_http_api.video + 'get_video_list/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取内容审核视频列表
         'get_review_video': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_review_video/', data);
+            var info = form_post(bpo_http_api.video + 'get_review_video/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取审核详情
         'get_review_detail': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_review_detail/', data);
+            var info = form_post(bpo_http_api.video + 'get_review_detail/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 视频审核
         'video_review': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'video_review/', data);
+            var info = form_post(bpo_http_api.video + 'video_review/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 批量删除/恢复视频
         'delete_video': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'delete_video/', data);
+            var info = form_post(bpo_http_api.video + 'delete_video/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 批量删除导入失败的视频
         'delete_download_videos': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'delete_download_videos/', data);
+            var info = form_post(bpo_http_api.video + 'delete_download_videos/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取视频转码相关信息
         'get_video_with_coding_info': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_video_with_coding_info/', data);
+            var info = form_post(bpo_http_api.video + 'get_video_with_coding_info/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 对视频进行某个模板的重新转码(待调整)
         'redo_transcoding': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'redo_transcoding/', data);
+            var info = form_post(bpo_http_api.video + 'redo_transcoding/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取单个直播源
         'get_live_stream': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_live_stream/', data);
+            var info = form_post(bpo_http_api.video + 'get_live_stream/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取直播源列表
         'get_live_stream_list': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_live_stream_list/', data);
+            var info = form_post(bpo_http_api.video + 'get_live_stream_list/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取审核的直播源列表
         'get_review_live_streams': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_review_live_streams/', data);
+            var info = form_post(bpo_http_api.video + 'get_review_live_streams/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取直播源审核详情
         'get_lsreview_detail': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_lsreview_detail/', data);
+            var info = form_post(bpo_http_api.video + 'get_lsreview_detail/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 创建直播源
         'create_live_stream': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'create_live_stream/', data);
+            var info = form_post(bpo_http_api.video + 'create_live_stream/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 修改直播源
         'update_live_stream': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'update_live_stream/', data);
+            var info = form_post(bpo_http_api.video + 'update_live_stream/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 直播源审核
         'live_stream_review': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'live_stream_review/', data);
+            var info = form_post(bpo_http_api.video + 'live_stream_review/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 直播源重新提交审核
         'submit_live_stream_review': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'submit_live_stream_review/', data);
+            var info = form_post(bpo_http_api.video + 'submit_live_stream_review/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
 
         // 批量删除直播源
         'delete_live_stream': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'delete_live_stream/', data);
+            var info = form_post(bpo_http_api.video + 'delete_live_stream/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 播出节目单审核
         'program_group_review': function(data, callback) {
-            var info = form_post(bls_http_api.channel + 'program_group_review/', data);
+            var info = form_post(bpo_http_api.channel + 'program_group_review/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取频道列表
         'get_channels': function(data, callback) {
-            var info = form_post(bls_http_api.channel + 'get_channels/', data);
+            var info = form_post(bpo_http_api.channel + 'get_channels/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 重新提交内容审核
         'submit_content_review': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'submit_content_review/', data);
+            var info = form_post(bpo_http_api.video + 'submit_content_review/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取节目单
-        'get_program_groups': function(data, callback) {
-            var info = form_post(bls_http_api.channel + 'get_program_groups/', data);
-            var Http = form_post_add_token(info);
-            $http(Http).success(callback);
-        },
+        // 'get_program_groups': function(data, callback) {
+        //     var info = form_post(bpo_http_api.channel + 'get_program_groups/', data);
+        //     var Http = form_post_add_token(info);
+        //     $http(Http).success(callback);
+        // },
         // 获取审核的播出节目单
         // XXX 编单审核未开启的不显示
         'get_review_groups': function(data, callback) {
-            var info = form_post(bls_http_api.channel + 'get_review_groups/', data);
+            var info = form_post(bpo_http_api.channel + 'get_review_groups/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 根据节目单ID获取节目列表
         'get_programs_by_groupid': function(data, callback) {
-            var info = form_post(bls_http_api.channel + 'get_programs_by_groupid/', data);
+            var info = form_post(bpo_http_api.channel + 'get_programs_by_groupid/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 检查此目录下的文件名是否唯一
         'title_unique': function(data, callback) {
-            var info = post_add_token(bls_http_api.video + 'title_unique/', data);
+            var info = post_add_token(bpo_http_api.video + 'title_unique/', data);
             $http(info).success(callback);
         },
         // 获取媒资系统成品分类
         'get_vms_directories': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_vms_directories/', data);
+            var info = form_post(bpo_http_api.video + 'get_vms_directories/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 获取媒资系统分类下的视频
         'get_vms_product_videos': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_vms_product_videos/', data);
+            var info = form_post(bpo_http_api.video + 'get_vms_product_videos/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 导入系统来源
         'get_copyright': function(data, callback) {
-            var info = post_add_token(bls_http_api.video + 'get_copyright/', data);
+            var info = post_add_token(bpo_http_api.video + 'get_copyright/', data);
             $http(info).success(callback);
         },
         // 从媒资系统导入视频
         'post_video_info': function(data, callback) {
-            var info = post_add_token(bls_http_api.video + 'post_video_info/', data);
+            var info = post_add_token(bpo_http_api.video + 'post_video_info/', data);
             $http(info).success(callback);
         },
         // 获取新奥特媒资系统视频
         'get_cdv_product_videos': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'get_cdv_product_videos/', data);
+            var info = form_post(bpo_http_api.video + 'get_cdv_product_videos/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         },
         // 修改视频信息
         'update_video': function(data, callback) {
-            var info = form_post(bls_http_api.video + 'update_video/', data);
+            var info = form_post(bpo_http_api.video + 'update_video/', data);
             var Http = form_post_add_token(info);
             $http(Http).success(callback);
         }
     }
 }]);
 
-bls_service.service('bls_check', function(growl) {
+bpo_service.service('bpo_check', function(growl) {
     return {
         // id: 判断条件不同，需手动传入
         init_check: function($scope, array, id) {
@@ -285,7 +285,7 @@ bls_service.service('bls_check', function(growl) {
             var data = {};
             if (!obj.id) { // 多选
                 if (!obj.$scope.checkboxes.items.length) {
-                    growl.addErrorMessage("请至少选择一条数据", {ttl: bls_prompt.error});
+                    growl.addErrorMessage("请至少选择一条数据", {ttl: bpo_prompt.error});
                     return false;
                 }
                 for (var i = 0; i < obj.array.length; i++) {
@@ -301,7 +301,7 @@ bls_service.service('bls_check', function(growl) {
                 data[obj.data_param] = [obj.id];
             }
             if (!data[obj.data_param].length) {
-                growl.addErrorMessage("您选择的数据有误", {ttl: bls_prompt.error});
+                growl.addErrorMessage("您选择的数据有误", {ttl: bpo_prompt.error});
                 obj.$scope.checkboxes.checked = false;
                 obj.$scope.checkboxes.items = [];
                 angular.forEach(obj.array, function(data) {data.check = false;});
@@ -314,7 +314,7 @@ bls_service.service('bls_check', function(growl) {
             var data = {};
             if (!obj.id) { // 多选操作
                 if (!obj.$scope.checkboxes.items.length) {
-                    growl.addErrorMessage("请至少选择一条数据", {ttl: bls_prompt.error});
+                    growl.addErrorMessage("请至少选择一条数据", {ttl: bpo_prompt.error});
                     return false;
                 }
                 data[obj.data_param] = obj.$scope.checkboxes.items;
@@ -331,8 +331,8 @@ bls_service.service('bls_check', function(growl) {
  * 注：不要在两个分类里同时上传视频！
  * 视频文件上传时，若在其中一个分类上传同时其他分类中也有上传视频，上传后视频分类会发生错误！
  */
-bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
-    function($rootScope, $http, growl, bls_api) {
+bpo_service.service('video_upload', ["$rootScope", "$http", "growl", "bpo_api",
+    function($rootScope, $http, growl, bpo_api) {
         return {
             create: function() {
                 var uploadButton = angular.element('<input type="file" style="display:none;">')[0];
@@ -341,7 +341,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
 
                 var upload_start_timestamp = 0;
                 $rootScope.r = new Resumable({
-                    'target': bls_http_api.video + 'upload_video/',
+                    'target': bpo_http_api.video + 'upload_video/',
                     'chunkSize': 512*1024,
                     'simultaneousUploads': 5,
                     'method': 'octet',
@@ -391,7 +391,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
                         for (var j = 0; j < $rootScope.files.length; j++) {
                             var item = $rootScope.files[j];
                             if (item.fileName === file.fileName) {
-                                growl.addErrorMessage(file.fileName + "文件正在上传中！", {ttl: bls_prompt.error});
+                                growl.addErrorMessage(file.fileName + "文件正在上传中！", {ttl: bpo_prompt.error});
                                 $rootScope.r.files.splice(j+1, 1);
                                 file = null;
                                 return false;
@@ -407,12 +407,12 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
                         titles.push(fileName);
                     }
 
-                    bls_api.title_unique({
+                    bpo_api.title_unique({
                         titles: titles,
                         dir_id: $rootScope.upload_type
                     }, function(res) {
                         if (res.result.length) {
-                            return growl.addWarnMessage(res.result.join("，") + "文件名重复", {ttl: bls_prompt.error});
+                            return growl.addWarnMessage(res.result.join("，") + "文件名重复", {ttl: bpo_prompt.error});
                         }
                         // 弹出层页面上传列表
                         var video_list = [];
@@ -422,7 +422,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
                         for (var i = 0; i < files.length; i++) {
                             var index = _.indexOf(video_list, files[i].fileName);
                             if (index >= 0) {
-                                growl.addErrorMessage("待上传列表中已有选中视频！", {ttl: bls_prompt.error});
+                                growl.addErrorMessage("待上传列表中已有选中视频！", {ttl: bpo_prompt.error});
                                 return false;
                             }
                             $rootScope.upload_list.push(files[i]);
@@ -449,7 +449,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
                 //$rootScope.r.on('fileSuccess', function(file, message) {
                 //    for (var i = 0; i < $rootScope.files.length; i++) {
                 //        if($rootScope.files[i].uniqueIdentifier == file.uniqueIdentifier) {
-                //            growl.addWarnMessage($rootScope.files[i].fileName + "上传成功", {ttl: bls_prompt.success});
+                //            growl.addWarnMessage($rootScope.files[i].fileName + "上传成功", {ttl: bpo_prompt.success});
                 //            $rootScope.files.splice(i, 1);
                 //            break;
                 //        }
@@ -501,7 +501,7 @@ bls_service.service('video_upload', ["$rootScope", "$http", "growl", "bls_api",
     }
 ]);
 
-bls_service.service('bls_api_cancel', function($q) {
+bpo_service.service('bpo_api_cancel', function($q) {
     return {
         canceler: $q.defer(),
         cancel_request: function($q) {
@@ -512,7 +512,7 @@ bls_service.service('bls_api_cancel', function($q) {
     }
 });
 
-bls_service.service('odd_datepicker', function() {
+bpo_service.service('odd_datepicker', function() {
     return {
         date: function($scope) {
             $scope.odd_status = false;
@@ -528,7 +528,7 @@ bls_service.service('odd_datepicker', function() {
     }
 });
 
-bls_service.service('datepicker', function() {
+bpo_service.service('datepicker', function() {
     return {
         init_date: function($scope) {
             $scope.status = {
@@ -562,7 +562,7 @@ bls_service.service('datepicker', function() {
     }
 });
 
-bls_service.service('third_menu', function() {
+bpo_service.service('third_menu', function() {
     return function(list, num) {
         /**
          * num为2时适用素材管理素材类别、编单添加素材、垫片， 为3时适用频道类别。
@@ -589,11 +589,11 @@ bls_service.service('third_menu', function() {
     }
 });
 
-bls_service.provider('bls_http_error', [function() {
+bpo_service.provider('bpo_http_error', [function() {
     this.$get = ['$rootScope', 'growl', function($rootScope, growl) {
         return {
             http_error_handler: function(result, status) {
-                $rootScope.$broadcast('bls_on_error', result, status);
+                $rootScope.$broadcast('bpo_on_error', result, status);
             },
             /*
              event: obj // angularjs http event obj
@@ -603,8 +603,8 @@ bls_service.provider('bls_http_error', [function() {
              status: number // http response or request status，例如200, 401
              **/
             on_response_error: function($scope, callback) {
-                $scope.$on('bls_on_error', function(event, result) {
-                    growl.addErrorMessage(result, {ttl: bls_prompt.error});
+                $scope.$on('bpo_on_error', function(event, result) {
+                    growl.addErrorMessage(result, {ttl: bpo_prompt.error});
                     callback && callback();
                 });
             }
@@ -613,7 +613,7 @@ bls_service.provider('bls_http_error', [function() {
 }]);
 
 // intercept http error
-bls_service.factory('MHttpInterceptor', ['$q', 'bls_http_error', function($q, bls_http_error) {
+bpo_service.factory('MHttpInterceptor', ['$q', 'bpo_http_error', function($q, bpo_http_error) {
     // register the interceptor as a service
     // @see: https://code.angularjs.org/1.2.0-rc.3/docs/api/ng.$http
     // @remark: the function($q) should never add other params.
@@ -639,11 +639,11 @@ bls_service.factory('MHttpInterceptor', ['$q', 'bls_http_error', function($q, bl
         'response': function(response) {
             // 验证权限跳转→登录页面
             if (response.data.status && response.data.status == Errors.redirect) {
-                window.location.href = response.data.result + '?next=' + BLS_ROOT;
+                window.location.href = response.data.result + '?next=' + BPO_ROOT;
             }
 
             if (response.data.status && response.data.status != Errors.success) {
-                bls_http_error.http_error_handler(response.data.result, response.status);
+                bpo_http_error.http_error_handler(response.data.result, response.status);
                 return $q.reject(response.data.result);
             }
             return response || $q.when(response);
@@ -658,12 +658,12 @@ bls_service.factory('MHttpInterceptor', ['$q', 'bls_http_error', function($q, bl
          }
          **/
         'responseError': function(rejection) {
-            bls_http_error.http_error_handler(null, rejection.status);
+            bpo_http_error.http_error_handler(null, rejection.status);
             return $q.reject(rejection.status);
         }
     };
 }]);
 
-bls_service.config(['$httpProvider', function($httpProvider) {
+bpo_service.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('MHttpInterceptor')
 }]);

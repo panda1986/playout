@@ -1,11 +1,11 @@
 'use strict';
-bravo_bls.controller("mainCtrl", ["$scope", "growl", "$window", "bls_http_error", "video_upload", "$http", "$rootScope",
-    function($scope, growl, $window, bls_http_error, video_upload, $http, $rootScope) {
+bravo_bpo.controller("mainCtrl", ["$scope", "growl", "$window", "bpo_http_error", "video_upload", "$http", "$rootScope",
+    function($scope, growl, $window, bpo_http_error, video_upload, $http, $rootScope) {
         var $win, target, tag;
         $scope.ums_root = UMS_ROOT;
 
         // html right top error response
-        bls_http_error.on_response_error($scope);
+        bpo_http_error.on_response_error($scope);
 
         video_upload.create();
 
@@ -38,24 +38,24 @@ bravo_bls.controller("mainCtrl", ["$scope", "growl", "$window", "bls_http_error"
                     'callback': 'JSON_CALLBACK'
                 }
             }).then(function successCallback(res) {
-                window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+                window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
             }, function errorCallback(res) {
                 // todo:....
                 console.log(res);
-                window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+                window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
             });
         };
     }
 ]);
 // confirm common modal
-bravo_bls.controller("confirmCtrl", ["$scope", "$uibModalInstance",
+bravo_bpo.controller("confirmCtrl", ["$scope", "$uibModalInstance",
     function($scope, $uibModalInstance) {
         $scope.ok = function () {$uibModalInstance.close();};
         $scope.cancel = function () {$uibModalInstance.dismiss('cancel');};
     }
 ]);
 // video preview modal
-bravo_bls.controller("videoPreviewCtrl", ["$scope", "$uibModalInstance", "info", "$timeout",
+bravo_bpo.controller("videoPreviewCtrl", ["$scope", "$uibModalInstance", "info", "$timeout",
     function($scope, $uibModalInstance, info, $timeout) {
         if (info.url[0] == '/') {
             var http = window.location.protocol,
@@ -83,7 +83,7 @@ bravo_bls.controller("videoPreviewCtrl", ["$scope", "$uibModalInstance", "info",
 ]);
 
 // play_stream_video
-bravo_bls.controller("streamVideoCtrl", ["$scope", "$uibModalInstance", "url", "$timeout",
+bravo_bpo.controller("streamVideoCtrl", ["$scope", "$uibModalInstance", "url", "$timeout",
     function($scope, $uibModalInstance, url, $timeout) {
         $timeout(function() {
             player_init("play_base", url, 1, 768, 400);

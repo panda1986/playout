@@ -1,7 +1,7 @@
 'use strict';
-var bls_filter = angular.module("bls_filter", []);
+var bpo_filter = angular.module("bpo_filter", []);
 
-bls_filter.filter('userStatus', function() {
+bpo_filter.filter('userStatus', function() {
     return function(data) {
         if (data == 1) {
             return "已启用";
@@ -13,7 +13,7 @@ bls_filter.filter('userStatus', function() {
     };
 });
 
-bls_filter.filter('channelStatus', function() {
+bpo_filter.filter('channelStatus', function() {
     return function(data) {
         if (data == 1) {
             return "启用";
@@ -25,7 +25,7 @@ bls_filter.filter('channelStatus', function() {
     };
 });
 
-bls_filter.filter('channelStatusOperation', function() {
+bpo_filter.filter('channelStatusOperation', function() {
     return function(data) {
         if (data == 1) {
             return "禁用";
@@ -37,7 +37,7 @@ bls_filter.filter('channelStatusOperation', function() {
     };
 });
 
-bls_filter.filter('userStatusOperation', function() {
+bpo_filter.filter('userStatusOperation', function() {
     return function(data) {
         if (data == 1) {
             return "禁用";
@@ -49,7 +49,7 @@ bls_filter.filter('userStatusOperation', function() {
     };
 });
 
-bls_filter.filter('bps', function() {
+bpo_filter.filter('bps', function() {
     return function(bps_v) {
         if (bps_v == undefined || bps_v == null) {
             return "——";
@@ -79,13 +79,13 @@ bls_filter.filter('bps', function() {
     }
 });
 
-bls_filter.filter('str2boolean', function() {
+bpo_filter.filter('str2boolean', function() {
     return function(input) {
         return Boolean(parseInt(input));
     };
 });
 
-bls_filter.filter("seconds_to_hhmmss", function() {
+bpo_filter.filter("seconds_to_hhmmss", function() {
     return function(seconds) {
         if (seconds == null || seconds == undefined) {
             return "——";
@@ -101,7 +101,7 @@ bls_filter.filter("seconds_to_hhmmss", function() {
     }
 });
 
-bls_filter.filter("millseconds_to_hhmmss", function() {
+bpo_filter.filter("millseconds_to_hhmmss", function() {
     return function(seconds) {
         var seconds = Number(seconds)/1000;
         var hh = (seconds / 3600) >= 1 ? Math.floor(seconds / 3600) : 0;
@@ -114,7 +114,7 @@ bls_filter.filter("millseconds_to_hhmmss", function() {
     }
 });
 
-bls_filter.filter("statusCN", function() {
+bpo_filter.filter("statusCN", function() {
     return function(status){
         if (status == 0) {
             return '未审批';
@@ -126,7 +126,7 @@ bls_filter.filter("statusCN", function() {
     }
 });
 
-bls_filter.filter('videoStatus', function() {
+bpo_filter.filter('videoStatus', function() {
     return function(str) {
         var array = str.split(",");
         if (array[0] != "转码") {
@@ -150,7 +150,7 @@ bls_filter.filter('videoStatus', function() {
 });
 
 //　视频大小
-bls_filter.filter("CalculateBUnit", function() {
+bpo_filter.filter("CalculateBUnit", function() {
     return function(network) {
         var kb = parseInt(network / 1024);
         var mb = parseInt(network / 1024 / 1024);
@@ -175,7 +175,7 @@ bls_filter.filter("CalculateBUnit", function() {
 });
 
 // 星期
-bls_filter.filter("format_week", function() {
+bpo_filter.filter("format_week", function() {
     return function(arg) {
         var fmt;
         switch (arg) {
@@ -191,7 +191,7 @@ bls_filter.filter("format_week", function() {
     }
 });
 
-bls_filter.filter("program_type", function() {
+bpo_filter.filter("program_type", function() {
     return function(arg) {
         if (arg == "timing") {
             return "定时播";
@@ -205,14 +205,14 @@ bls_filter.filter("program_type", function() {
     }
 });
 
-bls_filter.filter("filterDuration", function() {
+bpo_filter.filter("filterDuration", function() {
     return function(str) {
         if (!str) return "——";
         return str;
     }
 });
 
-bls_filter.filter('transcodeStatus', function() {
+bpo_filter.filter('transcodeStatus', function() {
     return function(num) {
         if (num == 0) {
             return '未开始';
@@ -226,7 +226,7 @@ bls_filter.filter('transcodeStatus', function() {
     };
 });
 
-bls_filter.filter("filterStatus", function() {
+bpo_filter.filter("filterStatus", function() {
     return function(arg) {
         if (arg == "running") {
             return "在播";
@@ -240,7 +240,7 @@ bls_filter.filter("filterStatus", function() {
     }
 });
 
-bls_filter.filter("BroadcastStatus", function() {
+bpo_filter.filter("BroadcastStatus", function() {
     return function(arg) {
         if (arg == "success") {
             return "完成";
@@ -258,14 +258,14 @@ bls_filter.filter("BroadcastStatus", function() {
     }
 });
 
-bls_filter.filter("filterNull", function() {
+bpo_filter.filter("filterNull", function() {
     return function(str) {
         if (str == null || !str.length) return "——";
         return str;
     }
 });
 
-bls_filter.filter("line_status", function() {
+bpo_filter.filter("line_status", function() {
    return function(str) {
        if (str == "online") {
            return "在线";
@@ -279,7 +279,7 @@ bls_filter.filter("line_status", function() {
    }
 });
 
-bls_filter.filter("ip_separate", function() {
+bpo_filter.filter("ip_separate", function() {
     return function(arr) {
         var len = Object.size(arr);
         if (len == 1) {
@@ -292,7 +292,7 @@ bls_filter.filter("ip_separate", function() {
     }
 });
 
-bls_filter.filter("import_status", function() {
+bpo_filter.filter("import_status", function() {
     return function(arg) {
         if (arg === 0) {
             return "等待导入";
@@ -308,7 +308,7 @@ bls_filter.filter("import_status", function() {
     }
 });
 
-bls_filter.filter("status_show", function() {
+bpo_filter.filter("status_show", function() {
    return function(arg) {
        if (typeof arg == "number") {
            return true;
@@ -318,7 +318,7 @@ bls_filter.filter("status_show", function() {
    }
 });
 
-bls_filter.filter("live_status", function() {
+bpo_filter.filter("live_status", function() {
     return function(arg) {
         if (arg == 0) {
             return "未审核";

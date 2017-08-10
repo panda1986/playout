@@ -1,22 +1,14 @@
 /**
  * 获取登录后显示页面首页及权限
  */
-/** XXX 版本更新时请更改bls_version参数，以更新客户端代码（index.html中utility.js也要改） **/
-var bls_version = '?version=1ad633106c20170804';
+/** XXX 版本更新时请更改bpo_version参数，以更新客户端代码（index.html中utility.js也要改） **/
+var bpo_version = '?version=0';
 var top_nav = {};
 var dashboard = {};
 var get_menu_list = function() {
-    $.ajax({
-        url: "/accounts/ajax/get_menu_list/",
-        type: 'post',
-        data: {m_type: 0},
-        async: false,
-        success: function(data) {
-            if (data.status != 'success') {
-                window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
-            }
-            for (var i = 0; i < data.result.length; i++) {
-                var item = data.result[i];
+    var result = [{"status": 1, "wf_id": 2, "need_verify": 0, "name": "素材管理", "level": 1, "url": "/", "selected": true, "child_menu": [], "order": 2, "parent_id": 0, "desc": "这是素材管理描述信息", "id": 2, "add_time": "2016-12-12 00:00:00"}];
+            for (var i = 0; i < result.length; i++) {
+                var item = result[i];
                 switch (item.name) {
                     case "素材管理":
                         top_nav.material = true;
@@ -36,46 +28,73 @@ var get_menu_list = function() {
                         });
                 }
             }
-
-            // todo ;
-            //for (var i = 0; i < data.result.length; i++) {
-            //    var item = data.result[i];
-            //    if (item.selected) {
-            //        dashboard.otherwise = item.name;
-            //        dashboard.vms_nav_menu = data.result;
-            //        break;
-            //    }
-            //}
-
-            // todo delete it
-            for (var i = 0; i < data.result.length; i++) {
-                var item = data.result[i];
+            for (var i = 0; i < result.length; i++) {
+                var item = result[i];
                 if (item.name == ('素材管理' || '审批管理') && item.selected) {
                     dashboard.otherwise = item.name;
-                    dashboard.vms_nav_menu = data.result;
+                    dashboard.vms_nav_menu = result;
                     break;
                 }
             }
+    // $.ajax({
+    //     url: "/accounts/get_menu_list/",
+    //     type: 'post',
+    //     data: {m_type: 0},
+    //     async: false,
+    //     success: function(data) {
+    //         data.result = [{"status": 1, "wf_id": 2, "need_verify": 0, "name": "素材管理", "level": 1, "url": "/", "selected": true, "child_menu": [], "order": 2, "parent_id": 0, "desc": "这是素材管理描述信息", "id": 2, "add_time": "2016-12-12 00:00:00"}];
+    //         if (data.status != 'success') {
+    //             window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
+    //         }
+    //         for (var i = 0; i < data.result.length; i++) {
+    //             var item = data.result[i];
+    //             switch (item.name) {
+    //                 case "素材管理":
+    //                     top_nav.material = true;
+    //                     break;
+    //                 case "审批管理":
+    //                     top_nav.check = true;
+    //                     angular.forEach(item.child_menu, function(data) {
+    //                         if (data.name == "素材审核" && data.selected) {
+    //                             top_nav.VODcheck = true;
+    //                         }
+    //                         if (data.name == "直播源审核" && data.selected) {
+    //                             top_nav.liveCheck = true;
+    //                         }
+    //                         if (data.name == "编单审核" && data.selected) {
+    //                             top_nav.editProCheck = true;
+    //                         }
+    //                     });
+    //             }
+    //         }
+    //         for (var i = 0; i < data.result.length; i++) {
+    //             var item = data.result[i];
+    //             if (item.name == ('素材管理' || '审批管理') && item.selected) {
+    //                 dashboard.otherwise = item.name;
+    //                 dashboard.vms_nav_menu = data.result;
+    //                 break;
+    //             }
+    //         }
 
-        },
-        error: function(data) {
-            window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
-        }
-    });
+    //     },
+    //     error: function(data) {
+    //         window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
+    //     }
+    // });
 };
 
-var bls_http_api = {
+var bpo_http_api = {
     accounts: "/accounts/ajax/",
     channel: "/channel/ajax/",
     video: "/video/ajax/"
 };
 
-var bls_refresh = {
+var bpo_refresh = {
     interval: 5000,
     is_spinner: true
 };
 
-var bls_prompt = {
+var bpo_prompt = {
     success: 5000,
     error: 8000
 };
@@ -93,11 +112,12 @@ function get_token() {
     var current_href, token;
     current_href = window.location.href;
     if (current_href.indexOf("token=") < 0) {
-        window.location.href = UMS_ROOT + '/accounts/login/?next=' + BLS_ROOT;
+        window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=' + 'http://' + BPO_ROOT;
     }
     token = current_href.split("token=")[1];
-    if (token.indexOf("#/bls")) {
-        token = token.split("#/bls")[0];
+    console.log(token);
+    if (token.indexOf("#/bpo")) {
+        token = token.split("#/bpo")[0];
     }
     return token;
 }

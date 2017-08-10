@@ -1,8 +1,8 @@
 'use strict';
-var bls_directive = angular.module("bls_directive", []);
+var bpo_directive = angular.module("bpo_directive", []);
 
 /* Nav toggle */
-bls_directive.directive('navToggle', function() {
+bpo_directive.directive('navToggle', function() {
     return {
         restrict: 'EA',
         link: function (scope, element, attr) {
@@ -23,7 +23,7 @@ bls_directive.directive('navToggle', function() {
     };
 });
 
-bls_directive.directive('restoreNav', function () {
+bpo_directive.directive('restoreNav', function () {
     return {
         restrict: 'EA',
         link: function (scope, element, attr) {
@@ -41,7 +41,7 @@ bls_directive.directive('restoreNav', function () {
  *  Angular File Upload module does not include this directive
  *  Only for show imgage-preview
  */
-bls_directive.directive('ngThumb', ['$window', function($window) {
+bpo_directive.directive('ngThumb', ['$window', function($window) {
     var helper = {
         support: !!($window.FileReader && $window.CanvasRenderingContext2D),
         isFile: function(item) {
@@ -87,7 +87,7 @@ bls_directive.directive('ngThumb', ['$window', function($window) {
 }]);
 
 /* 左右选择器 */
-bls_directive.directive('multiSelect', function() {
+bpo_directive.directive('multiSelect', function() {
     return {
         restrict: 'E',
         scope: {
@@ -133,7 +133,7 @@ bls_directive.directive('multiSelect', function() {
         }
     };
 });
-bls_directive.directive('switchitem', function() {
+bpo_directive.directive('switchitem', function() {
     return {
         restrict: 'E',
         scope: {
@@ -146,7 +146,7 @@ bls_directive.directive('switchitem', function() {
 /**
  * Modal drag
  */
-bls_directive.directive('modalDialog', function() {
+bpo_directive.directive('modalDialog', function() {
     return {
         restrict: 'AC',
         link: function (scope, element, attr) {

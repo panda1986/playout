@@ -2,7 +2,7 @@
 <html lang="en" data-ng-app="bravo_bls">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Bravo BLS</title>
+    <title>Bravo bpo</title>
     <link rel="stylesheet" href="vendor/bootstrap3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/angular-loading-bar/loading-bar.min.css">
     <link rel="stylesheet" href="vendor/angular-growl/angular-growl.min.css">
@@ -29,7 +29,7 @@
 <script type="text/javascript" src="vendor/ocLazyLoad/ocLazyLoad.min.js"></script>
 <script type="text/javascript" src="vendor/resumable/resumable.js"></script>
 <script type="text/javascript" src="vendor/md5/md5.js"></script>
-<script type="text/javascript" src="app/bls_utility.js?version=1ad633106c20170804"></script>
+<script type="text/javascript" src="app/bpo_utility.js?version=0"></script>
 <script type="text/javascript" src="js/dynamic_code.js"></script>
 <script type="text/javascript">get_menu_list();</script>
 <script type="text/javascript" src="app/service.js"></script>
