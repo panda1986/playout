@@ -36,7 +36,26 @@ function go_platform()
     echo "GOPATH is ok"
 }
 
+function install_pkg()
+{
+    # lib from go-oryx.
+    if [[ ! -d $GOPATH/src/github.com/ossrs/go-oryx-lib ]]; then
+        echo "install go-oryx-lib"
+        mkdir -p $GOPATH/src/github.com/ossrs && cd $GOPATH/src/github.com/ossrs &&
+        git clone https://github.com/ossrs/go-oryx-lib.git
+        ret=$?; if [[ $ret -ne 0 ]]; then echo "build go-oryx-lib failed. ret=$ret"; exit $ret; fi
+    fi
+    echo "go-oryx-lib ok"
 
+    if [[ ! -d $GOPATH/src/github.com/go-sql-driver/mysql ]]; then
+        echo "install mysql"
+        mkdir -p $GOPATH/src/github.com/go-sql-driver && cd $GOPATH/src/github.com/go-sql-driver &&
+        rm -rf mysql-1.2 && tar xf $work_dir/../3rdparty/go/mysql-1.2.tar.gz &&
+        rm -f mysql && ln -sf mysql-1.2 mysql
+        ret=$?; if [[ 0 -ne $ret ]]; then echo "install github.com/go-sql-driver/mysql failed. ret=$ret"; exit $ret; fi
+    fi
+    echo "mysql ok"
+}
 
 function install_playout()
 {
@@ -53,6 +72,7 @@ function install_playout()
 }
 
 go_platform
+install_pkg
 install_playout
 
 echo "* 启动playout功能:"
