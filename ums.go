@@ -55,7 +55,7 @@ func (v *Ums) postForm(sid, url string, form url.Values) (body []byte, err error
     }
     req.Header.Set("Accept", "*/*")
     req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-    req.AddCookie(&http.Cookie{Name: "sessionid", Value: fmt.Sprintf("'%s'", sid)})
+    req.AddCookie(&http.Cookie{Name: "sessionid", Value: sid})
 
     core.LoggerTrace.Println("ums post to", url, "values", form.Encode())
 
@@ -116,7 +116,7 @@ func (v *Ums) MenuList(m_type, sid string, uid int) (menu []*Menu, err error) {
 func (v *Ums) UserInfo(sid string) (user *UserInfo, err error) {
     api := fmt.Sprintf("http://%s%s", Config().Playout.Ums, UmsGetUserApi)
     form := make(url.Values)
-    form.Set("token", sid)
+    form.Set("token", fmt.Sprintf("sessionid=%s", sid))
     form.Set("fr", "ajax")
 
     var body []byte

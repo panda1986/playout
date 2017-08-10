@@ -4,7 +4,6 @@ import (
     "chnvideo.com/cloud/common/core"
     "fmt"
     "net/http"
-    "net/url"
 )
 
 type MemorySession struct {
@@ -37,6 +36,8 @@ func (v *SessionManager) sid(r *http.Request) (sid string, err error)  {
         }
         return cookie.Value, nil
     }
+    token = fmt.Sprintf("'%s'", token)
+    fmt.Println("got token", token, string(token))
     return token, nil
 }
 
@@ -87,7 +88,7 @@ func (v *SessionManager) SessionRead(w http.ResponseWriter, r *http.Request) (se
     }
     v.sessions[sid] = sess
 
-    cookie := http.Cookie{Name: CookieName, Value: url.QueryEscape(sid), Path: "/", HttpOnly: true}
+    cookie := http.Cookie{Name: CookieName, Value: sid, Path: "/", HttpOnly: true}
     http.SetCookie(w, &cookie)
     return
 }

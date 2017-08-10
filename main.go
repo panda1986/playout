@@ -9,7 +9,6 @@ import (
     "log"
     "runtime"
     "chnvideo.com/cloud/playout/util"
-    "net/url"
 )
 
 func main()  {
@@ -42,6 +41,7 @@ func main()  {
     // The injector hijack each http request.
     injector := func(next http.Handler) http.Handler {
         return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+            fmt.Println("inject, req url=", r.URL.RawPath, r.URL.RawQuery)
             if _, err := gSess.SessionRead(w, r); err != nil {
                 http.Error(w, err.Error(), http.StatusUnauthorized)
                 return
@@ -51,7 +51,15 @@ func main()  {
         })
     }
 
-    core.HttpMount("static-dir", "/", "/bpo.html", injector(nil))
+    //core.HttpMount("static-dir", "/", "/bpo.html", injector(nil))
+    ui := http.FileServer(http.Dir("static-dir"))
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        if _, err := gSess.SessionRead(w, r); err != nil {
+            http.Error(w, err.Error(), http.StatusUnauthorized)
+            return
+        }
+        ui.ServeHTTP(w, r)
+    })
 
     http.Handle("/resource/upload", injector(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
     })))
