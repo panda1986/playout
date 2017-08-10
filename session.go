@@ -7,7 +7,8 @@ import (
 )
 
 type MemorySession struct {
-                           // TODO: timeAccessed time.Time //最后访问时间
+    sid string
+    // TODO: timeAccessed time.Time //最后访问时间
     ip           string    //用户ip
     user *UserInfo
 }
@@ -25,7 +26,7 @@ func NewSessionManager(ums *Ums) *SessionManager {
     return v
 }
 
-func (v *SessionManager) Sid(r *http.Request) (sid string, err error)  {
+func (v *SessionManager) sid(r *http.Request) (sid string, err error)  {
     cookie, err := r.Cookie(CookieName)
     if err != nil || cookie.Value == "" {
         return "", fmt.Errorf("didn't have %v in cookie", CookieName)
@@ -34,9 +35,26 @@ func (v *SessionManager) Sid(r *http.Request) (sid string, err error)  {
     return cookie.Value, nil
 }
 
+func (v *SessionManager) Session(r *http.Request) (s *MemorySession, err error) {
+    var sid string
+    if sid, err = v.sid(r); err != nil {
+        core.LoggerError.Println("get sessionid failed, err is", err)
+        return
+    }
+
+    var ok bool
+    if s, ok = v.sessions[sid]; ok {
+        return
+    }
+
+    err = fmt.Errorf("can't find session of :%v", sid)
+    core.LoggerError.Println(err.Error())
+    return
+}
+
 func (v *SessionManager) SessionRead(r *http.Request) (sess *MemorySession, err error) {
     var sid string
-    if sid, err = v.Sid(r); err != nil {
+    if sid, err = v.sid(r); err != nil {
         core.LoggerError.Println("get sessionid failed, err is", err)
         return
     }
@@ -58,6 +76,7 @@ func (v *SessionManager) SessionRead(r *http.Request) (sess *MemorySession, err 
     core.LoggerTrace.Println("read sid:%v user info=%v", sid, user)
 
     sess = &MemorySession{
+        sid: sid,
         ip: r.RemoteAddr,
         user: user,
     }
@@ -67,7 +86,7 @@ func (v *SessionManager) SessionRead(r *http.Request) (sess *MemorySession, err 
 
 func (v *SessionManager) UserInfo(r *http.Request) (user *UserInfo, err error) {
     var sid string
-    if sid, err = v.Sid(r); err != nil {
+    if sid, err = v.sid(r); err != nil {
         core.LoggerError.Println("get sessionid failed, err is", err)
         return
     }

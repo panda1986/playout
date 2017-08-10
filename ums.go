@@ -8,6 +8,7 @@ import (
     "strings"
     "io/ioutil"
     "encoding/json"
+    "strconv"
 )
 
 type UserInfo struct {
@@ -83,11 +84,11 @@ func (v *Ums) postForm(sid, url string, form url.Values) (body []byte, err error
     return
 }
 
-func (v *Ums) MenuList(sid string) (menu []*Menu, err error) {
+func (v *Ums) MenuList(m_type, sid string, uid int) (menu []*Menu, err error) {
     api := fmt.Sprintf("http://%s%s", Config().Playout.Ums, UmsGetMenuListApi)
     form := make(url.Values)
-    form.Set("m_type", "0")
-    form.Set("user_id", "1")
+    form.Set("m_type", m_type)
+    form.Set("user_id", strconv.Itoa(uid))
     form.Set("system", ProductSystem)
 
     var body []byte
