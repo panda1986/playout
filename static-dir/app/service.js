@@ -28,15 +28,15 @@ bpo_service.service("bpo_api", ["$http", function ($http) {
                 method: 'GET'
             }).success(callback);
         },
-        upload_material: function (config, callback) {
-            var http = {
-                url: bpo_http_api.accounts + "/resource/upload",
-                method: config.method
-            }
-            config.data && (http, data = config.data);
-            config.url && (http.url += config.url);
-            $http(http).success(callback);
-        }
+        // upload_material: function (config, callback) {
+        //     var http = {
+        //         url: bpo_http_api.accounts + "/resource/upload",
+        //         method: config.method
+        //     }
+        //     config.data && (http, data = config.data);
+        //     config.url && (http.url += config.url);
+        //     $http(http).success(callback);
+        // }
     }
 }]);
 
@@ -134,7 +134,7 @@ bpo_service.service('video_upload', ["$rootScope", "$http", "growl", "bpo_api",
 
                 var upload_start_timestamp = 0;
                 $rootScope.r = new Resumable({
-                    'target': bpo_http_api.video + '/resource/upload',//'upload_video/',
+                    'target': bpo_http_api.video + 'resource/upload',//'upload_video/',
                     'chunkSize': 512*1024,
                     'simultaneousUploads': 5,
                     'method': 'octet',

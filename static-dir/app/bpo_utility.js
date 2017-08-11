@@ -58,8 +58,8 @@ var get_menu_list = function() {
 var bpo_http_api = {
     accounts: "/account/",
     // /account/get_menu_list
-    channel: "/channel/ajax/",
-    video: "/video/ajax/"
+    channel: "/channel/",
+    video: "/video/"
 };
 
 var bpo_refresh = {
