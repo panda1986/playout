@@ -24,23 +24,18 @@ bravo_bpo.run(["$rootScope", "$state", "$stateParams", "bpo_api", "$http",
         };
 
         // this is upload files list, not update this name!
-        $rootScope.files = [];
-       // if (!hasCookie('sessionid')) {
-       //      window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=' + 'http://' + BPO_ROOT;
-       //  } else {
-       //    // $rootScope.app.umsinfo.user_id = res.data.result.id;
-       //      // $rootScope.app.umsinfo.username = res.data.result.username;
-       //      $rootScope.app.top_nav = top_nav;
-       //  }
-
-
-        //  if (!token) {
-        //     // window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=' + 'http://' + BPO_ROOT;
-        // } else {
-        //   // $rootScope.app.umsinfo.user_id = res.data.result.id;
-        //     // $rootScope.app.umsinfo.username = res.data.result.username;
-        //     $rootScope.app.top_nav = top_nav;
-        // }
+        $.ajax({
+            url: "/account/get_user_info",
+            type: 'GET',
+            data: '',
+            async: false,
+            success: function(res) {
+                $rootScope.files = [];
+                $rootScope.app.umsinfo.user_id = res.data.id;
+                $rootScope.app.umsinfo.username = res.data.username;
+                $rootScope.app.top_nav = top_nav;
+            },
+        });
     }
 ]);
 
@@ -144,7 +139,7 @@ bravo_bpo.config(["$stateProvider", "$urlRouterProvider", "$controllerProvider",
 
         $stateProvider.state('bpo', {
             url: '/bpo',
-            templateUrl: 'views/bpo_layout.html',
+            templateUrl: 'views/bpo.html',
             resolve: loadSequence('ngLoadingSpinner', 'perfect_scrollbar'),
             abstract: true
         });

@@ -3,8 +3,10 @@
         <div class="pull-left m-spirit u-fold" nav-toggle></div>
         <div class="pull-left m-nav">
             <ul class="f-cb">
-                <li ng-if="app.top_nav.material" ng-class="{active: $state.includes('bls.material')}"><a restore-nav ui-sref="bls.material.vod">素材管理</a></li>
-                <li ng-if="app.top_nav.check" ng-class="{active: $state.includes('bls.check')}"><a restore-nav ui-sref="bls.check">审批管理</a></li>
+                <li ng-if="app.top_nav.play" ng-class="{active: $state.includes('bpo.play')}"><a restore-nav ui-sref="bpo.play.channel">播控管理</a></li>
+                <li ng-if="app.top_nav.material" ng-class="{active: $state.includes('bpo.material')}"><a restore-nav ui-sref="bpo.material.vod">素材管理</a></li>
+                <li ng-if="app.top_nav.monitor" ng-class="{active: $state.includes('bpo.monitor')}"><a restore-nav ui-sref="bpo.monitor.channelMonitor">监控管理</a></li>
+                <li ng-if="app.top_nav.check" ng-class="{active: $state.includes('bpo.check')}"><a restore-nav ui-sref="bpo.check">审批管理</a></li>
             </ul>
         </div>
         <div class="dropdown m-user">
