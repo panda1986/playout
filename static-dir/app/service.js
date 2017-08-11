@@ -432,7 +432,6 @@ bpo_service.factory('MHttpInterceptor', ['$q', 'bpo_http_error', function($q, bp
          statusText: "OK"
          }
          **/
-        'response': function(response) {
             // 验证权限跳转→登录页面
             if (response.data.status && response.data.status == Errors.redirect) {
                 window.location.href = response.data.result + '?next=' + BPO_ROOT;
@@ -454,6 +453,10 @@ bpo_service.factory('MHttpInterceptor', ['$q', 'bpo_http_error', function($q, bp
          }
          **/
         'responseError': function(rejection) {
+	    if (rejection.status == Errors.ui_unauthorized) {
+                window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=http://' + BPO_ROOT;
+                return;
+            }
             bpo_http_error.http_error_handler(null, rejection.status);
             return $q.reject(rejection.status);
         }
