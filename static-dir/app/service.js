@@ -419,7 +419,6 @@ bpo_service.factory('MHttpInterceptor', ['$q', 'bpo_http_error', function($q, bp
         },
         'requestError': function(rejection) {
             return $q.reject(rejection);
-        },
         /*
          response: {
          config: obj
