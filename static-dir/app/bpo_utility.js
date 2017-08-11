@@ -6,101 +6,54 @@ var bpo_version = '?version=0';
 var top_nav = {};
 var dashboard = {};
 var get_menu_list = function() {
-    var result = [{"status": 1, "wf_id": 2, "need_verify": 0, "name": "素材管理", "level": 1, "url": "/", "selected": true, "child_menu": [], "order": 2, "parent_id": 0, "desc": "这是素材管理描述信息", "id": 2, "add_time": "2016-12-12 00:00:00"}];
-        for (var i = 0; i < result.length; i++) {
-            var item = result[i];
-            switch (item.name) {
-                case "素材管理":
-                    top_nav.material = true;
+    $.ajax({
+        url: "/account/get_menu_list?m_type=0",
+        type: 'GET',
+        data: '',
+        async: false,
+        success: function(res) {
+            for (var i = 0; i < res.data.length; i++) {
+                var item = res.data[i];
+                switch (item.name) {
+                    case "播控管理":
+                        top_nav.play = true;
+                        break;
+                    case "素材管理":
+                        top_nav.material = true;
+                        break;
+                    case "监控管理":
+                        top_nav.monitor = true;
+                        break;
+                    case "审批管理":
+                        top_nav.check = true;
+                        angular.forEach(item.child_menu, function(data) {
+                            if (data.name == "素材审核" && data.selected) {
+                                top_nav.VODcheck = true;
+                            }
+                            if (data.name == "直播源审核" && data.selected) {
+                                top_nav.liveCheck = true;
+                            }
+                            if (data.name == "编单审核" && data.selected) {
+                                top_nav.editProCheck = true;
+                            }
+                        });
+                }
+            }
+            for (var i = 0; i < res.data.length; i++) {
+                var item = res.data[i];
+                if (item.name == ('素材管理' || '审批管理') && item.selected) {
+                    dashboard.otherwise = item.name;
+                    dashboard.vms_nav_menu = res.data;
                     break;
-                case "审批管理":
-                    top_nav.check = true;
-                    angular.forEach(item.child_menu, function(data) {
-                        if (data.name == "素材审核" && data.selected) {
-                            top_nav.VODcheck = true;
-                        }
-                        if (data.name == "直播源审核" && data.selected) {
-                            top_nav.liveCheck = true;
-                        }
-                        if (data.name == "编单审核" && data.selected) {
-                            top_nav.editProCheck = true;
-                        }
-                    });
+                }
             }
-        }
-        for (var i = 0; i < result.length; i++) {
-            var item = result[i];
-            if (item.name == ('素材管理' || '审批管理') && item.selected) {
-                dashboard.otherwise = item.name;
-                dashboard.vms_nav_menu = result;
-                break;
-            }
-        }
-    // $.ajax({
-    //     url: "/accounts/get_menu_list/",
-    //     type: 'post',
-    //     data: {m_type: 0},
-    //     async: false,
-    //     success: function(data) {
-    //         data.result = [{"status": 1, "wf_id": 2, "need_verify": 0, "name": "素材管理", "level": 1, "url": "/", "selected": true, "child_menu": [], "order": 2, "parent_id": 0, "desc": "这是素材管理描述信息", "id": 2, "add_time": "2016-12-12 00:00:00"}];
-    //         if (data.status != 'success') {
-    //             window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
-    //         }
-    //         for (var i = 0; i < data.result.length; i++) {
-    //             var item = data.result[i];
-    //             switch (item.name) {
-    //                 case "素材管理":
-    //                     top_nav.material = true;
-    //                     break;
-    //                 case "审批管理":
-    //                     top_nav.check = true;
-    //                     angular.forEach(item.child_menu, function(data) {
-    //                         if (data.name == "素材审核" && data.selected) {
-    //                             top_nav.VODcheck = true;
-    //                         }
-    //                         if (data.name == "直播源审核" && data.selected) {
-    //                             top_nav.liveCheck = true;
-    //                         }
-    //                         if (data.name == "编单审核" && data.selected) {
-    //                             top_nav.editProCheck = true;
-    //                         }
-    //                     });
-    //             }
-    //         }
-    //         for (var i = 0; i < data.result.length; i++) {
-    //             var item = data.result[i];
-    //             if (item.name == ('素材管理' || '审批管理') && item.selected) {
-    //                 dashboard.otherwise = item.name;
-    //                 dashboard.vms_nav_menu = data.result;
-    //                 break;
-    //             }
-    //         }
 
-    //     },
-    //     error: function(data) {
-    //         window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
-    //     }
-    // });
+        },
+        error: function(data) {
+            // window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=http://' + BPO_ROOT;
+        }
+    });
 };
-// console.log(hasCookie('sessionid'));
-// if (!hasCookie('sessionid')) {
-    // window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=' + 'http://' + BPO_ROOT;
-// } 
-
-// function get_token() {
-//     var current_href, token;
-//     current_href = window.location.href;
-//     console.log(current_href);
-//     if (current_href.indexOf("token=") < 0) {
-//         window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=http://'+ BPO_ROOT;
-//     }
-//     token = current_href.split("token=")[1];
-//     if (token.indexOf("#/bls")) {
-//         token = token.split("#/bls")[0];
-//     }
-//     return token;
-// }
-
 
 var bpo_http_api = {
     accounts: "/account/",

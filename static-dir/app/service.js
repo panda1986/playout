@@ -3,43 +3,40 @@ var bpo_service = angular.module("bpo_service", []);
 
 bpo_service.service("bpo_api", ["$http", function ($http) {
     return {
-        get_menu_list: function () {
-            var m_type = "m_type=1";
-            $http({
-                url: bpo_http_api.accounts + "get_menu_list?" + m_type,
-                method: 'GET',
-                //params:params,
-                //data: data 
-            }).success(function (res) {
-                console.log(res);
-            }).error(function () {
-            });
-        },
-        get_user_info: function () {
-            $http({
-                url: bpo_http_api.accounts + "get_user_info",
-                mothod: "GET"
-            }).success(function (res) {
-                console.log(res);
-            }).error (function (res) {
-                //
-            })
-        },
-        // get_menu_list: function (params, callback) {
+        // get_user_info: function () {
         //     $http({
-        //         url: btsHttpApi + params,
-        //         method: 'GET'
-        //     }).success(callback);
-        // }
-        // get_menu_list: function (config, callback) {
-        //     var http = {
         //         url: bpo_http_api.accounts + "get_user_info",
-        //         method: config.method
-        //     }
-        //     config.data && (http,data = config.data);
-        //     config.url && (http.url += config.url);
-        //     $http(http).success(callback);
-        // }
+        //         mothod: "GET"
+        //     }).success(function (res) {
+        //         console.log(res);
+        //     }).error (function (res) {
+        //         //
+        //     })
+        // },
+        // resources: function (queryString, config, callback) {
+        //         var http = {
+        //             url: btsHttpApi + 'resources' + queryString,
+        //             method: config.method
+        //         };
+        //         config.data && (http.data = config.data);
+        //         config.url && (http.url += config.url);
+        //         $http(http).success(callback);
+        //     },
+        get_menu_list: function (params, callback) {
+            $http({
+                url: bpo_http_api.accounts + '/get_menu_list?' + params,
+                method: 'GET'
+            }).success(callback);
+        },
+        upload_material: function (config, callback) {
+            var http = {
+                url: bpo_http_api.accounts + "/resource/upload",
+                method: config.method
+            }
+            config.data && (http, data = config.data);
+            config.url && (http.url += config.url);
+            $http(http).success(callback);
+        }
     }
 }]);
 
@@ -137,7 +134,7 @@ bpo_service.service('video_upload', ["$rootScope", "$http", "growl", "bpo_api",
 
                 var upload_start_timestamp = 0;
                 $rootScope.r = new Resumable({
-                    'target': bpo_http_api.video + 'upload_video/',
+                    'target': bpo_http_api.video + '/resource/upload',//'upload_video/',
                     'chunkSize': 512*1024,
                     'simultaneousUploads': 5,
                     'method': 'octet',
@@ -203,13 +200,13 @@ bpo_service.service('video_upload', ["$rootScope", "$http", "growl", "bpo_api",
                         titles.push(fileName);
                     }
 
-                    bpo_api.title_unique({
-                        titles: titles,
-                        dir_id: $rootScope.upload_type
-                    }, function(res) {
-                        if (res.result.length) {
-                            return growl.addWarnMessage(res.result.join("，") + "文件名重复", {ttl: bpo_prompt.error});
-                        }
+                    // bpo_api.title_unique({
+                    //     titles: titles,
+                    //     dir_id: $rootScope.upload_type
+                    // }, function(res) {
+                    //     if (res.result.length) {
+                    //         return growl.addWarnMessage(res.result.join("，") + "文件名重复", {ttl: bpo_prompt.error});
+                    //     }
                         // 弹出层页面上传列表
                         var video_list = [];
                         angular.forEach($rootScope.upload_list, function(data) {
@@ -226,7 +223,7 @@ bpo_service.service('video_upload', ["$rootScope", "$http", "growl", "bpo_api",
 
                         // 开始上传按钮
                         $rootScope.upload_button = false;
-                    });
+                    //});
                 });
 
                 // 上传进度
