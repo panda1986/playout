@@ -43,7 +43,6 @@ var get_menu_list = function() {
                 var item = res.data[i];
                 if (item.name == ('素材管理' || '审批管理') && item.selected) {
                     dashboard.otherwise = item.name;
-                    dashboard.vms_nav_menu = res.data;
                     break;
                 }
             }
