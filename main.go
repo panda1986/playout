@@ -54,9 +54,13 @@ func main()  {
     //core.HttpMount("static-dir", "/", "/bpo.html", injector(nil))
     ui := http.FileServer(http.Dir("static-dir"))
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        if _, err := gSess.SessionRead(w, r); err != nil {
-            http.Error(w, err.Error(), http.StatusUnauthorized)
-            return
+        q := r.URL.Query()
+        token := q.Get("token")
+        if len(token) != 0 {
+            if _, err := gSess.SessionRead(w, r); err != nil {
+                http.Error(w, err.Error(), http.StatusUnauthorized)
+                return
+            }
         }
         ui.ServeHTTP(w, r)
     })

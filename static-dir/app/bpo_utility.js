@@ -7,35 +7,35 @@ var top_nav = {};
 var dashboard = {};
 var get_menu_list = function() {
     var result = [{"status": 1, "wf_id": 2, "need_verify": 0, "name": "素材管理", "level": 1, "url": "/", "selected": true, "child_menu": [], "order": 2, "parent_id": 0, "desc": "这是素材管理描述信息", "id": 2, "add_time": "2016-12-12 00:00:00"}];
-            for (var i = 0; i < result.length; i++) {
-                var item = result[i];
-                switch (item.name) {
-                    case "素材管理":
-                        top_nav.material = true;
-                        break;
-                    case "审批管理":
-                        top_nav.check = true;
-                        angular.forEach(item.child_menu, function(data) {
-                            if (data.name == "素材审核" && data.selected) {
-                                top_nav.VODcheck = true;
-                            }
-                            if (data.name == "直播源审核" && data.selected) {
-                                top_nav.liveCheck = true;
-                            }
-                            if (data.name == "编单审核" && data.selected) {
-                                top_nav.editProCheck = true;
-                            }
-                        });
-                }
-            }
-            for (var i = 0; i < result.length; i++) {
-                var item = result[i];
-                if (item.name == ('素材管理' || '审批管理') && item.selected) {
-                    dashboard.otherwise = item.name;
-                    dashboard.vms_nav_menu = result;
+        for (var i = 0; i < result.length; i++) {
+            var item = result[i];
+            switch (item.name) {
+                case "素材管理":
+                    top_nav.material = true;
                     break;
-                }
+                case "审批管理":
+                    top_nav.check = true;
+                    angular.forEach(item.child_menu, function(data) {
+                        if (data.name == "素材审核" && data.selected) {
+                            top_nav.VODcheck = true;
+                        }
+                        if (data.name == "直播源审核" && data.selected) {
+                            top_nav.liveCheck = true;
+                        }
+                        if (data.name == "编单审核" && data.selected) {
+                            top_nav.editProCheck = true;
+                        }
+                    });
             }
+        }
+        for (var i = 0; i < result.length; i++) {
+            var item = result[i];
+            if (item.name == ('素材管理' || '审批管理') && item.selected) {
+                dashboard.otherwise = item.name;
+                dashboard.vms_nav_menu = result;
+                break;
+            }
+        }
     // $.ajax({
     //     url: "/accounts/get_menu_list/",
     //     type: 'post',

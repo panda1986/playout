@@ -38,9 +38,11 @@ bravo_bpo.controller("mainCtrl", ["$scope", "growl", "$window", "bpo_http_error"
                     'callback': 'JSON_CALLBACK'
                 }
             }).then(function successCallback(res) {
-                window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
+                window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=http://' + BPO_ROOT;
+                console.log(window.location.href);
             }, function errorCallback(res) {
-                window.location.href = UMS_ROOT + '/accounts/login/?next=' + BPO_ROOT;
+                window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=http://' + BPO_ROOT;
+                console.log(window.location.href);
             });
         };
     }

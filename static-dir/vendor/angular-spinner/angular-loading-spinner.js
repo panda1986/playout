@@ -11,7 +11,7 @@
                         $rootScope.spinnerActive = loading;
                         if (loading) {
                             // 出现
-                            if (bls_refresh.is_spinner) {
+                            if (bpo_refresh.is_spinner) {
                                 elm.removeClass('ng-hide');
                             }
                         } else {
