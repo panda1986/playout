@@ -15,3 +15,11 @@ func Contain(array []string, item string) bool {
     }
     return false
 }
+
+func Size(filename string) (int64) {
+    if f, err := os.Stat(filename); err != nil {
+        return 0
+    } else {
+        return f.Size()
+    }
+}

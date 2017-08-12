@@ -4,12 +4,12 @@ import (
     "chnvideo.com/cloud/common/core"
     "chnvideo.com/cloud/common/mysql"
     "fmt"
-    ojson "github.com/ossrs/go-oryx-lib/json"
     "log"
     "os"
     "sync"
     "chnvideo.com/cloud/playout/util"
     "path"
+    "encoding/json"
 )
 
 type GlobalConfig struct {
@@ -77,7 +77,9 @@ func ParseConfig(cfg string) (err error) {
     ConfigFile = cfg
 
     var c GlobalConfig
-    if err = ojson.Unmarshal(f, &c); err != nil {
+
+    d := json.NewDecoder(f)
+    if err = d.Decode(&c); err != nil {
         return
     }
     if err = c.Validate(); err != nil {

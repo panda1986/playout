@@ -109,7 +109,7 @@ bravo_bpo.config(["$stateProvider", "$urlRouterProvider", "$controllerProvider",
         }
 
         // jurisdiction setting
-        var menu = dashboard.vms_nav_menu;
+        var menu = dashboard.bpo_nav_menu;
         for (var i = 0; i < menu.length; i++) {
             var item = menu[i];
             if (item.selected) {

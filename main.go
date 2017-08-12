@@ -9,10 +9,13 @@ import (
     "log"
     "runtime"
     "chnvideo.com/cloud/playout/util"
+    "chnvideo.com/cloud/playout/resource"
+    "strconv"
+    "encoding/binary"
 )
 
 func main()  {
-    cfg := flag.String("c", "log.conf", "configuration file")
+    cfg := flag.String("c", "playout.conf", "configuration file")
     version := flag.Bool("v", false, "show version")
     flag.Parse()
     if *version {
@@ -25,6 +28,11 @@ func main()  {
 
     ums := &Ums{}
     gSess := NewSessionManager(ums)
+    storage, err := resource.NewStorage(Config().Resources.VideoDir)
+    if err != nil {
+        core.LoggerError.Println(fmt.Sprintf("new storage failed, err is %v", err))
+        return
+    }
 
     sql = NewSqlServer()
     if err := sql.Open(); err != nil {
@@ -41,7 +49,6 @@ func main()  {
     // The injector hijack each http request.
     injector := func(next http.Handler) http.Handler {
         return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-            fmt.Println("inject, req url=", r.URL.RawPath, r.URL.RawQuery)
             if _, err := gSess.SessionRead(w, r); err != nil {
                 http.Error(w, err.Error(), http.StatusUnauthorized)
                 return
@@ -51,9 +58,9 @@ func main()  {
         })
     }
 
-    //core.HttpMount("static-dir", "/", "/bpo.html", injector(nil))
     ui := http.FileServer(http.Dir("static-dir"))
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+
         q := r.URL.Query()
         token := q.Get("token")
         if len(token) != 0 {
@@ -66,6 +73,54 @@ func main()  {
     })
 
     http.Handle("/resource/upload", injector(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        q := r.URL.Query()
+        chunkId, _ := strconv.Atoi(q.Get("resumableChunkNumber"))
+        fid := q.Get("resumableIdentifier")
+        name := q.Get("resumableFilename")
+        totalChunks, _ := strconv.Atoi(q.Get("resumableTotalChunks"))
+        curChunkSize, _ := strconv.ParseInt(q.Get("resumableCurrentChunkSize"), 10, 64)
+
+        if r.Method == "POST" {
+            rfile := storage.Query(fid)
+            if rfile == nil {
+                rfile = storage.CreateFile(fid, name, totalChunks)
+            }
+
+            body := make([]byte, curChunkSize)
+            if err  := binary.Read(r.Body, binary.BigEndian, body); err != nil {
+                Error(ErrorReadRequestBody, err.Error()).ServeHTTP(w, r)
+                return
+            }
+
+            rfile.Write(chunkId, body)
+            Data(&struct {
+                Status string `json:"status"`
+                Result interface{} `json:"result"`
+            }{"success", nil}).ServeHTTP(w, r)
+            return
+        }
+
+        if r.Method == "GET" {
+            rfile := storage.Query(fid)
+            if rfile == nil {
+                http.Error(w, "", http.StatusUnauthorized)
+                return
+            }
+            rchunk := rfile.Chunk(chunkId)
+            if rchunk == nil {
+                http.Error(w, "", http.StatusUnauthorized)
+                return
+            }
+            if rchunk.IsComplete(curChunkSize) {
+                Data(&struct {
+                    Status string `json:"status"`
+                    Result interface{} `json:"result"`
+                }{"completed", nil}).ServeHTTP(w, r)
+                return
+            }
+            http.Error(w, "", http.StatusUnauthorized)
+            return
+        }
     })))
 
     http.Handle("/account/get_user_info", injector(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

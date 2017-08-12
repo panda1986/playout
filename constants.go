@@ -19,6 +19,7 @@ const (
     UmsLogoutApi = "/accounts/ajax/logout_api/?callback="
 
     ErrorGetUserInfo int = 200 + iota
+    ErrorReadRequestBody
     ErrorInvalidMenuType
     ErrorGetMenuList
 )

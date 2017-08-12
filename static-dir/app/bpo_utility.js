@@ -43,22 +43,22 @@ var get_menu_list = function() {
                 var item = res.data[i];
                 if (item.name == ('素材管理' || '审批管理') && item.selected) {
                     dashboard.otherwise = item.name;
+                    dashboard.bpo_nav_menu = res.data;
                     break;
                 }
             }
 
         },
         error: function(data) {
-            // window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=http://' + BPO_ROOT;
+            window.location.href = 'http://' + UMS_ROOT + '/accounts/login/?next=http://' + BPO_ROOT;
         }
     });
 };
 
 var bpo_http_api = {
     accounts: "/account/",
-    // /account/get_menu_list
     channel: "/channel/",
-    video: "/video/"
+    resource: "/resource"
 };
 
 var bpo_refresh = {

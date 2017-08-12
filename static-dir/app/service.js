@@ -134,7 +134,7 @@ bpo_service.service('video_upload', ["$rootScope", "$http", "growl", "bpo_api",
 
                 var upload_start_timestamp = 0;
                 $rootScope.r = new Resumable({
-                    'target': bpo_http_api.video + 'resource/upload',//'upload_video/',
+                    'target': bpo_http_api.resource + '/upload',
                     'chunkSize': 512*1024,
                     'simultaneousUploads': 5,
                     'method': 'octet',
@@ -416,18 +416,8 @@ bpo_service.factory('MHttpInterceptor', ['$q', 'bpo_http_error', function($q, bp
         },
         'requestError': function(rejection) {
             return $q.reject(rejection);
-        /*
-         response: {
-         config: obj
-         data: {
-         code: 400, // http response code
-         data: obj // http response data
-         },
-         headers:  function,
-         status: 200, // http response status
-         statusText: "OK"
-         }
-         **/
+        },
+        'response': function(response) {
             // 验证权限跳转→登录页面
             if (response.data.status && response.data.status == Errors.redirect) {
                 window.location.href = response.data.result + '?next=' + BPO_ROOT;
