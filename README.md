@@ -84,4 +84,7 @@ video play outstream contol
 }
 ```
 
+### workflow
+
+> 工作流架构: 素材上传完成后,添加到素材表,设置初始工作流状态未输入
 

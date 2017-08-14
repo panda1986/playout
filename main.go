@@ -12,6 +12,7 @@ import (
     "chnvideo.com/cloud/playout/resource"
     "strconv"
     "encoding/binary"
+    "time"
 )
 
 func main()  {
@@ -40,6 +41,10 @@ func main()  {
         return
     }
     defer sql.Close()
+
+    cron_scan_interval := time.Duration(Config().Resources.ScanInterval) * time.Second
+    crontab := resource.NewCrontab(cron_scan_interval)
+    go crontab.Serve()
 
     runtime.GOMAXPROCS(Config().NbCpus)
     fmt.Println(fmt.Sprintf("http listen at:%v, ums:%v, cpu:%v", Config().Listen, Config().Playout.Ums, Config().NbCpus))

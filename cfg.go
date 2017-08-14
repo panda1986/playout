@@ -21,6 +21,7 @@ type GlobalConfig struct {
     } `json:"playout"`
     Resources struct{
         VideoDir string `json:"video_dir"`
+        ScanInterval int `json:"cron_scan_interval_seconds"`
     } `json:"resources"`
 }
 
@@ -45,6 +46,11 @@ func (v *GlobalConfig) Validate() (err error) {
     }
     if len(v.Resources.VideoDir) == 0 {
         err = fmt.Errorf("resources video dir is empty")
+        log.Println(err.Error())
+        return
+    }
+    if v.Resources.ScanInterval <= 0 {
+        err = fmt.Errorf("resources cron scan iterval should > 0")
         log.Println(err.Error())
         return
     }
