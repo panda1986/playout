@@ -5,7 +5,7 @@
         <div class="pull-left u-chkList marL20">素材类别</div>
         <div class="pull-left u-chkList mar0_5">
             <select class="u-select u-select1"
-                    ng-model="video_data.directory_id"
+                    ng-model="video_data.category_id"
                     ng-change="select_list()"
                     ng-options="a.id as a.name for a in directory_options">
             </select>
@@ -34,6 +34,32 @@
         <!-- <button ng-if="copyright=='trunk'" class="pull-right u-btn f-c3 mar0_5 pad0_15" type="button" ng-click="import_material(directory_options)">导入素材</button> -->
     </div>
     <div class="m-table f-sd">
+        <div ng-hide="!files.length">
+            <div class="delete_input">
+                <input type="checkbox" class="vertical_top" ng-model="checkboxes.checked" ng-click="cancelAll()" />
+                <a href="javascript:;" class="active marL10 fs12" ng-click="cancelAll()">终止</a>
+            </div>
+            <div class="u-tb f-sd">
+                <table width="100%" class="u-tb1 u-tb5">
+                    <thead>
+                        <tr>
+                            <th>素材名称</th>
+                            <th>大小</th>
+                            <th>进度</th>
+                            <th>操作</th>
+                        <tr>
+                    </thead>
+                    <tbody class="u-td1">
+                        <tr ng-repeat="file in files">
+                            <td>{{file.fileName}}</td>
+                            <td>{{file.size | fileUnit}}</td>
+                            <td>({{file.progress()*100 | number: 2}}%)</td>
+                            <td><a ng-click="cancelFile(file)" class="f-ml1" ng-hide="file.progress() == '1'">终止</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="delete_input">
             <input type="checkbox" class="vertical_top" ng-model="checkboxes.checked" ng-click="check_all()" ng-change="checked(checkboxes.checked)" />
             <a href="javascript:;" class="active marL10 fs12" ng-click="delete_video()">删除</a>
@@ -47,12 +73,12 @@
                         <th>分辨率</th>
                         <th>码率</th>
                         <th>时长</th>
-                        <th>上传/导入状态</th>
+                        <!-- <th>上传/导入状态</th> -->
                         <th>操作</th>
                     <tr>
                 </thead>
                 <tbody class="u-td1">
-                    <tr ng-repeat="file in files" ng-if="video_data.directory_id == upload_type">
+                    <tr ng-repeat="file in files" ng-if="video_data.category_id == upload_type">
                         <td>{{file.fileName}}</td>
                         <td ng-repeat="title in material_data.titles">-</td>
                         <td>暂无</td>
