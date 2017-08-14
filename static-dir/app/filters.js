@@ -330,4 +330,28 @@ bpo_filter.filter("live_status", function() {
             return "——";
         }
     }
+})
+.filter("fileUnit", function() {
+    return function(unit) {
+        if (unit == undefined) return '——';
+        if (unit) {
+            var kb = unit / 1024;
+            var mb = unit / 1024 / 1024;
+            var gb = unit / 1024 / 1024 / 1024;
+            var tb = unit / 1024 / 1024 / 1024 / 1024;
+            if (kb > 0) {
+                if (mb > 0) {
+                    if (gb > 1) {
+                        if (tb > 1) {
+                            return tb.toFixed(2) + 'TB';
+                        }
+                        return gb.toFixed(2) + 'GB';
+                    }
+                    return mb.toFixed(2) + 'MB';
+                }
+                return kb.toFixed(2) + 'KB'
+            }
+            return unit + 'B';
+        }
+    }
 });

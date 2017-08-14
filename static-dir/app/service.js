@@ -25,17 +25,16 @@ bpo_service.service("bpo_api", ["$http", function ($http) {
         get_menu_list: function (params, callback) {
             $http({
                 url: bpo_http_api.accounts + '/get_menu_list?' + params,
-                method: 'GET'
+                method: 'GET',
+                dataType : 'json' 
             }).success(callback);
         },
-        // upload_material: function (config, callback) {
-        //     var http = {
-        //         url: bpo_http_api.accounts + "/resource/upload",
-        //         method: config.method
-        //     }
-        //     config.data && (http, data = config.data);
-        //     config.url && (http.url += config.url);
-        //     $http(http).success(callback);
+        // get_resources_vod: function (params, callback) {
+        //     $http({
+        //         // url: bpo_http_api.playout + 'resources/vod?' + params,
+        //         url: "json/vod.json",
+        //         method: 'GET'
+        //     }).success(callback);
         // }
     }
 }]);

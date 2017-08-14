@@ -12,6 +12,9 @@ var get_menu_list = function() {
         data: '',
         async: false,
         success: function(res) {
+            if (res.code != 0) {
+                res.data = [{status: 1, wf_id: 1, need_verify: 0, name: "素材管理", level: 1, url: "/", selected: true}]
+            }
             for (var i = 0; i < res.data.length; i++) {
                 var item = res.data[i];
                 switch (item.name) {
@@ -58,7 +61,8 @@ var get_menu_list = function() {
 var bpo_http_api = {
     accounts: "/account/",
     channel: "/channel/",
-    resource: "/resource"
+    resource: "/resource",
+    playout: "/"
 };
 
 var bpo_refresh = {

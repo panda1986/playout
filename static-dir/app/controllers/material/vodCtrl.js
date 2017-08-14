@@ -13,84 +13,83 @@ bravo_bpo.controller("vodCtrl", ["$scope", "$location", "bpo_check", "bpo_api", 
             if (!directorys.length) {
                 return growl.addInfoMessage("无素材类别", {ttl: bpo_prompt.error});
             };
-
             $scope.directory_options = third_menu(directorys, 2);
+            $scope.video_data = "page=" + $scope.bigCurrentPage + "&per_page=" + 10 + "&category_id=" + $scope.directory_options[0].id;
             $scope.video_data = {
-                page: $scope.bigCurrentPage,
-                limit: 10,
-                directory_id: $scope.directory_options[0].id
+                // page: $scope.bigCurrentPage,
+                // per_page: 10,
+                category_id: $scope.directory_options[0].id
             };
         });
-
-
-        // $scope.directory_options = [];
-        // bpo_api.get_menu_list({
-        //     m_type: 1 // 1：素材分类
-        // }, function(res) {
-        //     var directorys = res.result;
-        //     if (!directorys.length) {
-        //         return growl.addInfoMessage("无素材类别", {ttl: bpo_prompt.error});
-        //     }
-
-        //     $scope.directory_options = third_menu(directorys, 2);
-        //     $scope.video_data = {
-        //         page: $scope.bigCurrentPage,
-        //         limit: 10,
-        //         directory_id: $scope.directory_options[0].id
-        //     };
-        //     get_video_list();
-        // });
 
         // bpo_api.get_copyright({}, function(data) {
         //     $scope.copyright = data.result.copyright;
         // });
 
-        // service.js
-        // $rootScope.r.on('fileSuccess', function(file, message) {
-        //     for (var i = 0; i < $rootScope.files.length; i++) {
-        //         if($rootScope.files[i].uniqueIdentifier == file.uniqueIdentifier) {
-        //             growl.addWarnMessage($rootScope.files[i].fileName + "上传成功", {ttl: bpo_prompt.success});
-        //             $rootScope.files.splice(i, 1);
-        //             get_video_list();
-        //             break;
+        // $scope.cancelAll = function() {
+        //     var obj = {$scope: $rootScope, data_param: 'auth'};
+        //     btsCheck.batchOperation(obj, function(data) {
+        //         var res = data.auth;
+        //         for (var i = 0;i < res.length; i++) {
+        //             for (var j = 0; j < $rootScope.files.length; j++) {
+        //                 if ($rootScope.files[j].auth == res[i]) {
+        //                     $rootScope.files[j].cancel();
+        //                     $rootScope.files.splice(j, 1);
+        //                 }
+        //             }
         //         }
-        //     }
-        // });
+        //     });
+        // };
 
-        // // 搜索
+        // service.js
+        $rootScope.r.on('fileSuccess', function(file, message) {
+            for (var i = 0; i < $rootScope.files.length; i++) {
+                if($rootScope.files[i].uniqueIdentifier == file.uniqueIdentifier) {
+                    growl.addWarnMessage($rootScope.files[i].fileName + "上传成功", {ttl: bpo_prompt.success});
+                    $rootScope.files.splice(i, 1);
+                    //get_resource_vod();
+                    break;
+                }
+            }
+        });
+
+        // 搜索
         // $scope.search = function() {
         //     $scope.video_data.page = $scope.bigCurrentPage = 1;
-        //     get_video_list();
+        //     get_resource_vod();
         // };
 
         // $scope.select_list = function() {
-        //     get_video_list();
+        //     get_resource_vod();
         // };
 
-        // $scope.material_data = {};
+        $scope.material_data = {};
 
-        // function get_video_list() {
+        // get_resource_vod();
+        // function get_resource_vod() {
         //     /**
         //      * title: 节目名称
         //      * resolution: 分辨率
         //      * video_bitrate_min：码率最小值
         //      * video_bitrate_max：码率最大值
         //      */
-        //     if (!$scope.video_data.title) delete $scope.video_data.title;
-        //     if (!$scope.video_data.resolution) delete $scope.video_data.resolution;
-        //     if ($scope.video_data.video_bitrate_min && $scope.video_data.video_bitrate_max) {
-        //         if ($scope.video_data.video_bitrate_min > $scope.video_data.video_bitrate_max) {
-        //             growl.addErrorMessage("最小码率不能超过最大码率", {ttl: bpo_prompt.error});
-        //             return false;
-        //         }
-        //     }
-        //     if ($scope.video_data.video_bitrate_min !== 0 || $scope.video_data.video_bitrate_min == null) {
-        //         if (!$scope.video_data.video_bitrate_min) delete $scope.video_data.video_bitrate_min;
-        //     }
-        //     if ($scope.video_data.video_bitrate_max !== 0 || $scope.video_data.video_bitrate_max == null) {
-        //         if (!$scope.video_data.video_bitrate_max) delete $scope.video_data.video_bitrate_max;
-        //     }
-        //     bpo_api.get_video_list($scope.video_data, function(res) {
+        //      console.log($scope.video_data);
+        //     //if (!$scope.video_data.title) delete $scope.video_data.title;
+        //     // if (!$scope.video_data.resolution) delete $scope.video_data.resolution;
+        //     // if ($scope.video_data.video_bitrate_min && $scope.video_data.video_bitrate_max) {
+        //     //     if ($scope.video_data.video_bitrate_min > $scope.video_data.video_bitrate_max) {
+        //     //         growl.addErrorMessage("最小码率不能超过最大码率", {ttl: bpo_prompt.error});
+        //     //         return false;
+        //     //     }
+        //     // }
+        //     // if ($scope.video_data.video_bitrate_min !== 0 || $scope.video_data.video_bitrate_min == null) {
+        //     //     if (!$scope.video_data.video_bitrate_min) delete $scope.video_data.video_bitrate_min;
+        //     // }
+        //     // if ($scope.video_data.video_bitrate_max !== 0 || $scope.video_data.video_bitrate_max == null) {
+        //     //     if (!$scope.video_data.video_bitrate_max) delete $scope.video_data.video_bitrate_max;
+        //     // }
+        //     bpo_api.get_resources_vod($scope.video_data, function(res) {
+        //         console.log(res.video_infos);
         //         bpo_refresh.is_spinner = true;
         //         $scope.material_data.titles = res.result.workflow_title;
         //         $scope.material_data.is_transcode = _.indexOf($scope.material_data.titles, "转码");
@@ -99,7 +98,7 @@ bravo_bpo.controller("vodCtrl", ["$scope", "$location", "bpo_check", "bpo_api", 
         //         var type;
         //         for (var i = 0; i < $scope.directory_options.length; i++) {
         //             var item = $scope.directory_options[i];
-        //             if ($scope.video_data.directory_id == item.id) {
+        //             if ($scope.video_data.category_id == item.id) {
         //                 type = item.name;
         //             }
         //         }
@@ -135,7 +134,7 @@ bravo_bpo.controller("vodCtrl", ["$scope", "$location", "bpo_check", "bpo_api", 
                 video_id: video_id,
                 name: name,
                 directory:  $scope.directory_options,
-                directory_id: $scope.video_data.directory_id
+                category_id: $scope.video_data.category_id
             };
 
             var modalInstance = $uibModal.open({
@@ -147,7 +146,7 @@ bravo_bpo.controller("vodCtrl", ["$scope", "$location", "bpo_check", "bpo_api", 
                 resolve: {info: function() {return info}}
             });
             modalInstance.result.then(function() {
-                get_video_list();
+                //get_resource_vod();
             });
         };
 
@@ -177,7 +176,7 @@ bravo_bpo.controller("vodCtrl", ["$scope", "$location", "bpo_check", "bpo_api", 
                 modalInstance.result.then(function () {
                     bpo_api.delete_video(data, function(res) {
                         growl.addWarnMessage("删除视频成功", {ttl: bpo_prompt.success});
-                        get_video_list();
+                        //get_resource_vod();
                         $scope.checkboxes.checked = false;
                     });
                 });
@@ -196,62 +195,62 @@ bravo_bpo.controller("vodCtrl", ["$scope", "$location", "bpo_check", "bpo_api", 
             modalInstance.result.then(function() {
                 bpo_api.delete_download_videos({"download_ids": [download_id]}, function(data) {
                     growl.addWarnMessage("删除视频成功", {ttl: bpo_prompt.success});
-                    get_video_list();
+                    //get_resource_vod();
                 });
             });
         };
 
         // 审核失败之后操作
-        $scope.check_details = function(index, video_id) {
-            var title = $scope.material_data.titles[index],
-                modal_info = {
-                    animation: true,
-                    backdrop: 'static',
-                    resolve: {info: function () {return {video_id: video_id}}}
-                };
-            switch (title) {
-                case '技术审核':
-                    modal_info.templateUrl = 'views/modal/tec_check.html';
-                    modal_info.controller = 'tecCheckCtrl';
-                    modal_info.size = 'w800';
-                    break;
-                case '内容审核':
-                    modal_info.templateUrl = 'views/modal/content_check.html';
-                    modal_info.controller = 'contentCheckCtrl';
-                    modal_info.size = 'w800';
-                    break;
-                case '转码':
-                    modal_info.templateUrl = 'views/modal/transcode_check.html';
-                    modal_info.controller = 'transcodeCheckCtrl';
-                    modal_info.size = 'w500';
-                    break;
-            }
-            var modalInstance = $uibModal.open(modal_info);
-            switch (title) {
-                case '技术审核':
-                    modalInstance.result.then(function (Bflag) {
-                        if (Bflag) get_video_list();
-                    });
-                    break;
-                case '内容审核':
-                    modalInstance.result.then(function () {
-                        get_video_list();
-                    });
-                    break;
-                case '转码':
-                    modalInstance.result.then(function () {
-                        get_video_list();
-                    });
-                    break;
-                default:
-                    break;
-            }
-        };
+        // $scope.check_details = function(index, video_id) {
+        //     var title = $scope.material_data.titles[index],
+        //         modal_info = {
+        //             animation: true,
+        //             backdrop: 'static',
+        //             resolve: {info: function () {return {video_id: video_id}}}
+        //         };
+        //     switch (title) {
+        //         case '技术审核':
+        //             modal_info.templateUrl = 'views/modal/tec_check.html';
+        //             modal_info.controller = 'tecCheckCtrl';
+        //             modal_info.size = 'w800';
+        //             break;
+        //         case '内容审核':
+        //             modal_info.templateUrl = 'views/modal/content_check.html';
+        //             modal_info.controller = 'contentCheckCtrl';
+        //             modal_info.size = 'w800';
+        //             break;
+        //         case '转码':
+        //             modal_info.templateUrl = 'views/modal/transcode_check.html';
+        //             modal_info.controller = 'transcodeCheckCtrl';
+        //             modal_info.size = 'w500';
+        //             break;
+        //     }
+        //     var modalInstance = $uibModal.open(modal_info);
+        //     switch (title) {
+        //         case '技术审核':
+        //             modalInstance.result.then(function (Bflag) {
+        //                 if (Bflag) get_resource_vod();
+        //             });
+        //             break;
+        //         case '内容审核':
+        //             modalInstance.result.then(function () {
+        //                 get_resource_vod();
+        //             });
+        //             break;
+        //         case '转码':
+        //             modalInstance.result.then(function () {
+        //                 get_resource_vod();
+        //             });
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // };
 
-        $scope.pageChanged = function() {
-            $scope.video_data.page = $scope.bigCurrentPage;
-            get_video_list();
-        };
+        // $scope.pageChanged = function() {
+        //     $scope.video_data.page = $scope.bigCurrentPage;
+        //     get_resource_vod();
+        // };
 
         // 视频预览
         $scope.see_video = function(url) {
@@ -288,30 +287,30 @@ bravo_bpo.controller("vodCtrl", ["$scope", "$location", "bpo_check", "bpo_api", 
         //         resolve: {info: function() {return options}}
         //     });
         //     modalInstance.result.then(function() {
-        //         get_video_list();
+        //         get_resource_vod();
         //         $scope.checkboxes.checked = false;
         //     })
         // };
 
         // 导入素材 (从新奥特导入素材)
-        $scope.import_videos = function(options) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/modal/import_material_cdv.html',
-                controller: 'importVideosCtrl',
-                backdrop: 'static',
-                size: 'w1020',
-                resolve: {info: function() {return options}}
-            });
-            modalInstance.result.then(function() {
-                get_video_list();
-                $scope.checkboxes.checked = false;
-            })
-        };
+        // $scope.import_videos = function(options) {
+        //     var modalInstance = $uibModal.open({
+        //         animation: true,
+        //         templateUrl: 'views/modal/import_material_cdv.html',
+        //         controller: 'importVideosCtrl',
+        //         backdrop: 'static',
+        //         size: 'w1020',
+        //         resolve: {info: function() {return options}}
+        //     });
+        //     modalInstance.result.then(function() {
+        //         get_resource_vod();
+        //         $scope.checkboxes.checked = false;
+        //     })
+        // };
 
         async_refresh2.refresh_change(function() {
             bpo_refresh.is_spinner = false;
-            //get_video_list();
+            //get_resource_vod();
             async_refresh2.request();
         }, bpo_refresh.interval);
         async_refresh2.request(bpo_refresh.interval);
@@ -510,14 +509,33 @@ bravo_bpo.controller('importMaterialCtrl', ['$scope', '$uibModalInstance', 'bpo_
             $scope.selceted_category_id = x.id;
             $scope.api_data = {
                 dir_id: $scope.selceted_category_id,
-                limit: 32,
+                per_page: 32,
                 page: 1
             };
-            get_video_list();
+            get_resource_vod();
         };
 
-        function get_video_list() {
-            if (!$scope.api_data.title) delete $scope.api_data.title;
+        function get_resource_vod() {
+            /**
+             * title: 节目名称
+             * resolution: 分辨率
+             * video_bitrate_min：码率最小值
+             * video_bitrate_max：码率最大值
+             */
+            if (!$scope.video_data.title) delete $scope.video_data.title;
+            if (!$scope.video_data.resolution) delete $scope.video_data.resolution;
+            if ($scope.video_data.video_bitrate_min && $scope.video_data.video_bitrate_max) {
+                if ($scope.video_data.video_bitrate_min > $scope.video_data.video_bitrate_max) {
+                    growl.addErrorMessage("最小码率不能超过最大码率", {ttl: bls_prompt.error});
+                    return false;
+                }
+            }
+            if ($scope.video_data.video_bitrate_min !== 0 || $scope.video_data.video_bitrate_min == null) {
+                if (!$scope.video_data.video_bitrate_min) delete $scope.video_data.video_bitrate_min;
+            }
+            if ($scope.video_data.video_bitrate_max !== 0 || $scope.video_data.video_bitrate_max == null) {
+                if (!$scope.video_data.video_bitrate_max) delete $scope.video_data.video_bitrate_max;
+            }
             bpo_api.get_vms_product_videos($scope.api_data, function(data) {
                 $scope.materials = data.result.videos;
                 var fileSize, duration, resolution;
@@ -530,6 +548,8 @@ bravo_bpo.controller('importMaterialCtrl', ['$scope', '$uibModalInstance', 'bpo_
                 $scope.bigTotalItems = data.result.pagination.total;
             });
         }
+
+        get_resource_vod();
 
         var send_videos = [];
         $scope.select_program = function(x) {
@@ -548,11 +568,11 @@ bravo_bpo.controller('importMaterialCtrl', ['$scope', '$uibModalInstance', 'bpo_
 
         $scope.pageChanged = function() {
             $scope.api_data.page = $scope.bigCurrentPage;
-            get_video_list();
+            get_resource_vod();
         };
 
         $scope.search = function() {
-            get_video_list();
+            get_resource_vod();
         };
 
         $scope.ok = function () {
@@ -615,15 +635,15 @@ bravo_bpo.controller("importVideosCtrl", ["$scope", "$uibModalInstance", "bpo_ap
         }
 
         $scope.api_data = {
-            limit: 40,
+            per_page: 40,
             page: 1
         };
-        get_video_list();
-        function get_video_list() {
+        get_resource_vod();
+        function get_resource_vod() {
             if (!$scope.api_data.cusername) delete $scope.api_data.cusername;
             if (!$scope.api_data.title) delete $scope.api_data.title;
             if (!$scope.api_data.video_category) delete $scope.api_data.video_category;
-            bpo_api.get_cdv_product_videos($scope.api_data, function(data) {
+            bpo_api.get_resources_vod($scope.api_data, function(data) {
                 $scope.materials = data.result.videos;
                 angular.forEach($scope.materials, function(data) {
                     data.tip_info = $sce.trustAsHtml('类型 ' + (data.video.type == 'source' ? '源视频' : '成品') + '<br/>'
@@ -651,11 +671,11 @@ bravo_bpo.controller("importVideosCtrl", ["$scope", "$uibModalInstance", "bpo_ap
 
         $scope.pageChanged = function() {
             $scope.api_data.page = $scope.bigCurrentPage;
-            get_video_list();
+            get_resource_vod();
         };
 
         $scope.search = function() {
-            get_video_list();
+            get_resource_vod();
         };
 
         $scope.ok = function () {
@@ -714,10 +734,10 @@ bravo_bpo.controller("vodModifyCtrl", ["$scope", "$uibModalInstance", "info", "b
     function($scope, $uibModalInstance, info, bpo_api, growl) {
         $scope.name = info.name;
         $scope.directory = info.directory;
-        $scope.directory_id = info.directory_id;
+        $scope.category_id = info.category_id;
         $scope.ok = function() {
             var send_info = {
-                category_id: $scope.directory_id,
+                category_id: $scope.category_id,
                 video_id: info.video_id,
                 title: $scope.name
             };
